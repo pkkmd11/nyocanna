@@ -1,0 +1,36 @@
+
+
+A comprehensive cannabis e-commerce web application with two separate interfaces: a client-facing storefront and an admin management panel, both using Supabase as the database and deployed on Vercel.
+
+**Client Web App Features:**
+- Single-page application with bilingual support (Burmese primary, English secondary)
+- Product catalog organized by quality tiers (High, Medium, Low) with multiple images and details
+- Product video gallery with detailed descriptions
+- About Us, How to Order (with Telegram, WhatsApp, Messenger links and QR codes), and F&Q sections
+- Mobile and desktop responsive design
+
+**Admin Management Panel Features:**
+- Secure admin login system
+- Complete content management for site branding, products, videos, and all page content
+- Upload and manage customer screenshots and conversations for F&Q section
+- Full control over contact information and social media links
+
+**Technical Requirements:**
+- Database: Supabase (credentials provided)
+- Deployment: Vercel
+- Responsive design for smartphone and PC compatibility
+- Fast, lightweight single-page architecture
+
+Visual References:
+Inspired by Leafly's clean product catalog and Shopify's admin dashboard, known for their intuitive navigation and professional cannabis industry presentation.
+
+Style Guide:
+- Colors: Primary #2D5016 (cannabis green), Secondary #8BC34A (light green), Background #F8F9FA (clean white), Text #1B1B1B (dark), Accent #FF6B35 (warm orange), Success #4CAF50 (green)
+- Design: Noto Sans Myanmar/Inter/Roboto fonts, card-based product layout, clean admin tables, mobile-first responsive design, smooth transitions, modern UI components
+------------------------
+This is my supabase information.
+supabase password - Mjycs@2025
+project name - yeyint
+NEXT_PUBLIC_SUPABASE_URL=https://dbzagmhddcbdcrgdhnjx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRiemFnbWhkZGNiZGNyZ2Robmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2NzQ4NDUsImV4cCI6MjA3MTI1MDg0NX0.VGMjtba6bKgyogxqMzTYOQAUJ0N3rceT5GHeyEdwf_E
+--------
