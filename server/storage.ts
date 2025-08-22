@@ -513,7 +513,5 @@ export class DbStorage implements IStorage {
   }
 }
 
-// Use database storage if DATABASE_URL is available, otherwise use memory storage  
-// For now, use memory storage until database is properly configured
-export const storage = new MemStorage();
-// export const storage = process.env.DATABASE_URL ? new DbStorage() : new MemStorage();
+// Use database storage if DATABASE_URL is available, otherwise use memory storage
+export const storage = process.env.DATABASE_URL ? new DbStorage() : new MemStorage();

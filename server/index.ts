@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { seedDatabase } from "./seed";
 
 const app = express();
 app.use(express.json());
@@ -37,8 +38,17 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Initialize seeding for in-memory storage
   console.log('Starting YeYint Cannabis E-commerce Application...');
+  
+  // Seed database with initial data if using database storage
+  if (process.env.DATABASE_URL) {
+    try {
+      await seedDatabase();
+      console.log('Database seeded with sample products');
+    } catch (error) {
+      console.log('Seeding skipped (data may already exist)');
+    }
+  }
   
   const server = await registerRoutes(app);
 
