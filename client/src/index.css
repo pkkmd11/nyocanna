@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(249, 10%, 98%);
+  --foreground: hsl(0, 0%, 10.98%);
+  --card: hsl(249, 10%, 98%);
+  --card-foreground: hsl(0, 0%, 10.98%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(0, 0%, 10.98%);
+  --primary: hsl(91, 49%, 20%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(87, 47%, 54%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(240, 5%, 96%);
+  --muted-foreground: hsl(0, 0%, 45%);
+  --accent: hsl(15, 100%, 61%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(240, 6%, 90%);
+  --input: hsl(240, 6%, 90%);
+  --ring: hsl(91, 49%, 20%);
+  --success: hsl(122, 39%, 49%);
+  --success-foreground: hsl(0, 0%, 100%);
+  --cannabis-bg: hsl(220, 14%, 98%);
+  --cannabis-text: hsl(0, 0%, 11%);
+  --font-sans: 'Inter', 'Noto Sans Myanmar', sans-serif;
+  --font-myanmar: 'Noto Sans Myanmar', sans-serif;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(0, 0%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --card: hsl(0, 0%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --popover: hsl(0, 0%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --primary: hsl(91, 49%, 20%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(87, 47%, 54%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(0, 0%, 14.9%);
+  --muted-foreground: hsl(0, 0%, 63.9%);
+  --accent: hsl(15, 100%, 61%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(0, 0%, 14.9%);
+  --input: hsl(0, 0%, 14.9%);
+  --ring: hsl(91, 49%, 20%);
+  --success: hsl(122, 39%, 49%);
+  --success-foreground: hsl(0, 0%, 100%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-cannabis-bg text-cannabis-text font-sans antialiased;
+    font-family: var(--font-sans);
+  }
+  
+  .font-myanmar {
+    font-family: var(--font-myanmar);
+  }
+}
+
+@layer components {
+  .product-card {
+    @apply transition-all duration-300 ease-in-out hover:transform hover:-translate-y-1 hover:shadow-xl;
+  }
+  
+  .modal-overlay {
+    backdrop-filter: blur(4px);
+  }
+  
+  .image-carousel {
+    scroll-behavior: smooth;
+  }
+  
+  .admin-sidebar {
+    @apply transition-transform duration-300 ease-in-out;
+  }
+  
+  @media (max-width: 768px) {
+    .admin-sidebar.closed {
+      @apply transform -translate-x-full;
+    }
+  }
+  
+  .quality-high {
+    @apply bg-success text-success-foreground;
+  }
+  
+  .quality-medium {
+    @apply bg-secondary text-secondary-foreground;
+  }
+  
+  .quality-low {
+    @apply bg-muted text-muted-foreground;
+  }
+}
+
+@layer utilities {
+  .aspect-9-16 {
+    aspect-ratio: 9 / 16;
+  }
+  
+  .aspect-video {
+    aspect-ratio: 9 / 16;
+  }
+  
+  .aspect-4-3 {
+    aspect-ratio: 4 / 3;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
