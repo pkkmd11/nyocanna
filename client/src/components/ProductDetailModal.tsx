@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -56,7 +56,8 @@ export function ProductDetailModal({ product, language, isOpen, onClose }: Produ
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-full max-h-[90vh] p-0 overflow-hidden">
+      <DialogContent className="max-w-4xl w-full max-h-[90vh] p-0 overflow-hidden" aria-describedby="product-description">
+        <DialogTitle className="sr-only">{name}</DialogTitle>
         <div className="flex flex-col md:flex-row h-full">
           {/* Image Gallery */}
           <div className="md:w-1/2 bg-gray-100 relative">
