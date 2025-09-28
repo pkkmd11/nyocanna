@@ -7,7 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { insertProductSchema, InsertProduct } from '@shared/schema';
+import { useToast } from '@/hooks/use-toast';
+import { Upload, X } from 'lucide-react';
 import { z } from 'zod';
+import { useState } from 'react';
 
 const productFormSchema = insertProductSchema.extend({
   nameEn: z.string().min(1, 'English name is required'),
@@ -30,6 +33,9 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: ProductFormProps) {
+  const { toast } = useToast();
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productFormSchema),
     defaultValues: {
@@ -47,27 +53,87 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
     },
   });
 
-  const handleSubmit = (data: ProductFormData) => {
-    const productData: InsertProduct = {
-      name: {
-        en: data.nameEn,
-        my: data.nameMy,
-      },
-      description: {
-        en: data.descriptionEn,
-        my: data.descriptionMy,
-      },
-      quality: data.quality,
-      images: data.imageUrls ? data.imageUrls.split('\n').filter(Boolean) : [],
-      videos: data.videoUrls ? data.videoUrls.split('\n').filter(Boolean) : [],
-      specifications: {
-        en: data.specificationsEn ? data.specificationsEn.split('\n').filter(Boolean) : [],
-        my: data.specificationsMy ? data.specificationsMy.split('\n').filter(Boolean) : [],
-      },
-      isActive: data.isActive ?? true,
-    };
+  const handleSubmit = async (data: ProductFormData) => {
+    try {
+      console.log('Form submission data:', data);
+      
+      // Combine uploaded images with URL images
+      const urlImages = data.imageUrls ? data.imageUrls.split('\n').filter(Boolean) : [];
+      const allImages = [...uploadedImages, ...urlImages];
+      
+      const productData: InsertProduct = {
+        name: {
+          en: data.nameEn.trim(),
+          my: data.nameMy.trim(),
+        },
+        description: {
+          en: data.descriptionEn.trim(),
+          my: data.descriptionMy.trim(),
+        },
+        quality: data.quality,
+        images: allImages,
+        videos: data.videoUrls ? data.videoUrls.split('\n').filter(Boolean) : [],
+        specifications: {
+          en: data.specificationsEn ? data.specificationsEn.split('\n').filter(Boolean) : [],
+          my: data.specificationsMy ? data.specificationsMy.split('\n').filter(Boolean) : [],
+        },
+        isActive: data.isActive ?? true,
+      };
 
-    onSubmit(productData);
+      console.log('Processed product data:', productData);
+      
+      await onSubmit(productData);
+      
+      toast({
+        title: "Success",
+        description: initialData ? "Product updated successfully" : "Product created successfully",
+      });
+      
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Something went wrong",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    try {
+      for (const file of Array.from(files)) {
+        if (file.size > 20 * 1024 * 1024) { // 20MB limit
+          toast({
+            title: "Error",
+            description: `File ${file.name} is too large. Maximum size is 20MB.`,
+            variant: "destructive",
+          });
+          continue;
+        }
+        
+        // For now, create a temporary URL (in production, upload to object storage)
+        const tempUrl = URL.createObjectURL(file);
+        setUploadedImages(prev => [...prev, tempUrl]);
+        
+        toast({
+          title: "File uploaded",
+          description: `${file.name} has been prepared for upload.`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Upload Error",
+        description: "Failed to process uploaded files",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  const removeUploadedImage = (index: number) => {
+    setUploadedImages(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -167,24 +233,85 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
             />
 
             {/* Media */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="imageUrls"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Image URLs</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        placeholder="Enter image URLs (one per line)" 
-                        {...field}
-                        rows={4}
+            <div className="space-y-6">
+              {/* File Upload Section */}
+              <div className="space-y-4">
+                <FormLabel>Product Images</FormLabel>
+                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
+                  <div className="text-center">
+                    <Upload className="mx-auto h-12 w-12 text-muted-foreground/50" />
+                    <div className="mt-4">
+                      <label htmlFor="file-upload" className="cursor-pointer">
+                        <span className="mt-2 block text-sm font-medium text-foreground">
+                          Upload images (max 20MB each)
+                        </span>
+                        <span className="mt-1 block text-xs text-muted-foreground">
+                          PNG, JPG, GIF up to 20MB
+                        </span>
+                      </label>
+                      <input
+                        id="file-upload"
+                        name="file-upload"
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        className="sr-only"
+                        onChange={handleFileUpload}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                    </div>
+                    <Button type="button" variant="outline" className="mt-4" onClick={() => document.getElementById('file-upload')?.click()}>
+                      Choose Files
+                    </Button>
+                  </div>
+                </div>
+                
+                {/* Uploaded Images Preview */}
+                {uploadedImages.length > 0 && (
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium">Uploaded Images:</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                      {uploadedImages.map((image, index) => (
+                        <div key={index} className="relative group">
+                          <img 
+                            src={image} 
+                            alt={`Upload ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg border"
+                          />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => removeUploadedImage(index)}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
-              />
+              </div>
+              
+              {/* URL Input Section */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="imageUrls"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Additional Image URLs (Optional)</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Enter additional image URLs (one per line)" 
+                          {...field}
+                          rows={4}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
               <FormField
                 control={form.control}
@@ -204,6 +331,7 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                 )}
               />
             </div>
+          </div>
 
             {/* Specifications */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

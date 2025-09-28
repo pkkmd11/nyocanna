@@ -26,25 +26,32 @@ export default function AdminPage() {
     setLocation('/');
   };
 
-  const handleCreateProduct = (productData: InsertProduct) => {
-    createProduct.mutate(productData, {
-      onSuccess: () => {
-        setShowProductForm(false);
-      }
-    });
+  const handleCreateProduct = async (productData: InsertProduct) => {
+    try {
+      console.log('Creating product with data:', productData);
+      await createProduct.mutateAsync(productData);
+      setShowProductForm(false);
+      console.log('Product created successfully');
+    } catch (error) {
+      console.error('Error creating product:', error);
+      throw error; // Re-throw so the form can handle it
+    }
   };
 
-  const handleUpdateProduct = (productData: InsertProduct) => {
+  const handleUpdateProduct = async (productData: InsertProduct) => {
     if (editingProduct) {
-      updateProduct.mutate(
-        { id: editingProduct.id, product: productData },
-        {
-          onSuccess: () => {
-            setShowProductForm(false);
-            setEditingProduct(null);
-          }
-        }
-      );
+      try {
+        console.log('Updating product with data:', productData);
+        await updateProduct.mutateAsync(
+          { id: editingProduct.id, product: productData }
+        );
+        setShowProductForm(false);
+        setEditingProduct(null);
+        console.log('Product updated successfully');
+      } catch (error) {
+        console.error('Error updating product:', error);
+        throw error; // Re-throw so the form can handle it
+      }
     }
   };
 
