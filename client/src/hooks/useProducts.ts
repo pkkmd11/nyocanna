@@ -35,6 +35,7 @@ export function useCreateProduct() {
       return response.json();
     },
     onSuccess: () => {
+      // Invalidate all product queries including filtered ones
       queryClient.invalidateQueries({ queryKey: ['/api/products'] });
     }
   });
@@ -49,6 +50,7 @@ export function useUpdateProduct() {
       return response.json();
     },
     onSuccess: () => {
+      // Invalidate all product queries including filtered ones
       queryClient.invalidateQueries({ queryKey: ['/api/products'] });
     }
   });
@@ -63,6 +65,7 @@ export function useDeleteProduct() {
       return response.json();
     },
     onSuccess: () => {
+      // Invalidate all product queries including filtered ones
       queryClient.invalidateQueries({ queryKey: ['/api/products'] });
     }
   });
