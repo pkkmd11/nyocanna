@@ -1,24 +1,14 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
-import Uppy from "@uppy/core";
-import { DashboardModal } from "@uppy/react";
-// CSS imports temporarily removed due to Vite resolution issues
-// import "@uppy/core/dist/style.css";
-// import "@uppy/dashboard/dist/style.css";
-import AwsS3 from "@uppy/aws-s3";
-import type { UploadResult } from "@uppy/core";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabase";
+import { Upload } from "lucide-react";
 
 interface ObjectUploaderProps {
   maxNumberOfFiles?: number;
   maxFileSize?: number;
-  onGetUploadParameters: () => Promise<{
-    method: "PUT";
-    url: string;
-  }>;
-  onComplete?: (
-    result: UploadResult<Record<string, unknown>, Record<string, unknown>>
-  ) => void;
+  onComplete?: (uploadedUrls: string[]) => void;
   buttonClassName?: string;
   children: ReactNode;
 }
@@ -54,51 +44,121 @@ interface ObjectUploaderProps {
 export function ObjectUploader({
   maxNumberOfFiles = 1,
   maxFileSize = 20971520, // 20MB default for cannabis e-commerce images
-  onGetUploadParameters,
   onComplete,
   buttonClassName,
   children,
 }: ObjectUploaderProps) {
-  const [showModal, setShowModal] = useState(false);
-  const [uppy] = useState(() =>
-    new Uppy({
-      restrictions: {
-        maxNumberOfFiles,
-        maxFileSize,
-        allowedFileTypes: ['image/*'], // Only allow images for product photos
-      },
-      autoProceed: false,
-    })
-      .use(AwsS3, {
-        shouldUseMultipart: false,
-        getUploadParameters: onGetUploadParameters,
-      })
-      .on("complete", (result) => {
-        onComplete?.(result);
-        setShowModal(false); // Close modal after upload
-      })
-  );
+  const [isUploading, setIsUploading] = useState(false);
+  const { toast } = useToast();
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    alert('Upload button clicked! Starting Supabase storage upload...');
+    setIsUploading(true);
+
+    try {
+      const uploadedUrls: string[] = [];
+      
+      for (const file of Array.from(files)) {
+        // Check file size
+        if (file.size > maxFileSize) {
+          toast({
+            title: "File too large",
+            description: `${file.name} exceeds the 20MB limit`,
+            variant: "destructive",
+          });
+          continue;
+        }
+
+        // Check file type
+        if (!file.type.startsWith('image/')) {
+          toast({
+            title: "Invalid file type",
+            description: `${file.name} is not an image file`,
+            variant: "destructive",
+          });
+          continue;
+        }
+
+        // Upload to Supabase storage
+        const fileName = `products/${Date.now()}-${file.name}`;
+        const { data, error } = await supabase.storage
+          .from('product-images')
+          .upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (error) {
+          console.error('Supabase upload error:', error);
+          toast({
+            title: "Upload failed",
+            description: `Failed to upload ${file.name}: ${error.message}`,
+            variant: "destructive",
+          });
+          continue;
+        }
+
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(data.path);
+
+        uploadedUrls.push(urlData.publicUrl);
+      }
+
+      if (uploadedUrls.length > 0) {
+        toast({
+          title: "Upload successful",
+          description: `Successfully uploaded ${uploadedUrls.length} image(s) to Supabase`,
+        });
+        onComplete?.(uploadedUrls);
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload error",
+        description: "An unexpected error occurred during upload",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      // Reset the input
+      event.target.value = '';
+    }
+  };
 
   return (
     <div>
+      <input
+        type="file"
+        multiple
+        accept="image/*"
+        onChange={handleFileSelect}
+        style={{ display: 'none' }}
+        id="supabase-file-upload"
+        max={maxNumberOfFiles}
+      />
       <Button 
         type="button" 
         onClick={() => {
-          alert('Upload button clicked! Opening file upload modal...');
-          setShowModal(true);
-        }} 
+          document.getElementById('supabase-file-upload')?.click();
+        }}
         className={buttonClassName}
         data-testid="button-upload-files"
+        disabled={isUploading}
       >
-        {children}
+        {isUploading ? (
+          <>
+            <Upload className="w-4 h-4 mr-2 animate-spin" />
+            Uploading...
+          </>
+        ) : (
+          children
+        )}
       </Button>
-
-      <DashboardModal
-        uppy={uppy}
-        open={showModal}
-        onRequestClose={() => setShowModal(false)}
-        proudlyDisplayPoweredByUppy={false}
-      />
     </div>
   );
 }

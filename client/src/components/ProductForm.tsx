@@ -12,7 +12,7 @@ import { Upload, X } from 'lucide-react';
 import { z } from 'zod';
 import { useState } from 'react';
 import { ObjectUploader } from './ObjectUploader';
-import type { UploadResult } from '@uppy/core';
+// Removed Uppy import - now using Supabase storage directly
 
 const productFormSchema = insertProductSchema.extend({
   nameEn: z.string().min(1, 'English name is required'),
@@ -38,71 +38,17 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
   const { toast } = useToast();
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   
-  const handleGetUploadParameters = async () => {
+  const handleSupabaseUploadComplete = async (uploadedUrls: string[]) => {
     try {
-      const response = await fetch('/api/objects/upload', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to get upload URL');
-      }
-      
-      const data = await response.json();
-      return {
-        method: 'PUT' as const,
-        url: data.uploadURL,
-      };
-    } catch (error) {
-      console.error('Error getting upload parameters:', error);
-      toast({
-        title: "Upload Error",
-        description: "Failed to prepare file upload",
-        variant: "destructive",
-      });
-      throw error;
-    }
-  };
-  
-  const handleUploadComplete = async (result: UploadResult<Record<string, unknown>, Record<string, unknown>>) => {
-    try {
-      const uploadedFiles = result.successful || [];
-      const newImageUrls: string[] = [];
-      
-      for (const file of uploadedFiles) {
-        const uploadURL = file.uploadURL as string;
-        if (!uploadURL) continue;
-        
-        // Set ACL policy for the uploaded image
-        const response = await fetch('/api/product-images', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ imageURL: uploadURL }),
-        });
-        
-        if (response.ok) {
-          const { objectPath } = await response.json();
-          newImageUrls.push(`/objects${objectPath}`);
-        } else {
-          console.error('Failed to set ACL for uploaded image');
-          newImageUrls.push(uploadURL); // Fallback to direct URL
-        }
-      }
-      
-      setUploadedImages(prev => [...prev, ...newImageUrls]);
+      setUploadedImages(prev => [...prev, ...uploadedUrls]);
       
       toast({
         title: "Upload Complete",
-        description: `Successfully uploaded ${uploadedFiles?.length || 0} image(s)`,
+        description: `Successfully uploaded ${uploadedUrls.length} image(s) to Supabase storage`,
       });
       
     } catch (error) {
-      console.error('Error processing upload:', error);
+      console.error('Error processing Supabase upload:', error);
       toast({
         title: "Upload Error",
         description: "Failed to process uploaded files",
@@ -327,13 +273,15 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                         <ObjectUploader
                           maxNumberOfFiles={10}
                           maxFileSize={20971520}
-                          onGetUploadParameters={handleGetUploadParameters}
-                          onComplete={handleUploadComplete}
+                          onComplete={handleSupabaseUploadComplete}
                           buttonClassName="w-full"
                         >
                           <Upload className="w-4 h-4 mr-2" />
-                          Choose Files
+                          Upload to Supabase Storage
                         </ObjectUploader>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          ⚠️ Images must be uploaded to Supabase storage for proper functionality
+                        </p>
                       </div>
                     </div>
                   </div>
