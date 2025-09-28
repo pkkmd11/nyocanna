@@ -72,7 +72,6 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
 
   const handleSubmit = async (data: ProductFormData) => {
     try {
-      alert('Submit button clicked! Processing product form...');
       console.log('Form submission data:', data);
       
       // Use uploaded images only (no manual URL input)

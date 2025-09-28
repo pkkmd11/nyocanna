@@ -16,6 +16,7 @@ export default function HomePage() {
   const [selectedQuality, setSelectedQuality] = useState<string>('all');
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminCredentials, setAdminCredentials] = useState({ username: '', password: '' });
   const [, setLocation] = useLocation();
 
   const { data: products = [], isLoading } = useProducts(selectedQuality);
@@ -27,8 +28,15 @@ export default function HomePage() {
 
   const handleAdminSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setShowAdminLogin(false);
-    setLocation('/admin');
+    // Check admin credentials
+    if (adminCredentials.username === 'admin' && adminCredentials.password === 'admin') {
+      setShowAdminLogin(false);
+      setLocation('/admin');
+      // Store admin session
+      sessionStorage.setItem('adminAuth', 'true');
+    } else {
+      alert('Invalid credentials. Only admin/admin is allowed.');
+    }
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -230,7 +238,10 @@ export default function HomePage() {
               <input 
                 type="text" 
                 className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" 
+                value={adminCredentials.username}
+                onChange={(e) => setAdminCredentials(prev => ({ ...prev, username: e.target.value }))}
                 required 
+                data-testid="input-admin-username"
               />
             </div>
             <div>
@@ -238,7 +249,10 @@ export default function HomePage() {
               <input 
                 type="password" 
                 className="w-full px-3 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" 
+                value={adminCredentials.password}
+                onChange={(e) => setAdminCredentials(prev => ({ ...prev, password: e.target.value }))}
                 required 
+                data-testid="input-admin-password"
               />
             </div>
             

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,18 @@ export default function AdminPage() {
   const [showProductForm, setShowProductForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [, setLocation] = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Check authentication on mount
+  useEffect(() => {
+    const adminAuth = sessionStorage.getItem('adminAuth');
+    if (adminAuth === 'true') {
+      setIsAuthenticated(true);
+    } else {
+      // Redirect to home if not authenticated
+      setLocation('/');
+    }
+  }, [setLocation]);
 
   const { data: products = [], isLoading } = useProducts();
   const createProduct = useCreateProduct();
@@ -23,6 +35,7 @@ export default function AdminPage() {
   const deleteProduct = useDeleteProduct();
 
   const handleLogout = () => {
+    sessionStorage.removeItem('adminAuth');
     setLocation('/');
   };
 
@@ -32,6 +45,11 @@ export default function AdminPage() {
       await createProduct.mutateAsync(productData);
       setShowProductForm(false);
       console.log('Product created successfully');
+      
+      // Redirect to client homepage after successful creation
+      setTimeout(() => {
+        setLocation('/');
+      }, 1500); // Small delay to show success message
     } catch (error) {
       console.error('Error creating product:', error);
       throw error; // Re-throw so the form can handle it
