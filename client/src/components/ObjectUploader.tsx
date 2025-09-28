@@ -72,20 +72,23 @@ export function ObjectUploader({
           continue;
         }
 
-        // Check file type
-        if (!file.type.startsWith('image/')) {
+        // Check file type (allow images and videos)
+        if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
           toast({
             title: "Invalid file type",
-            description: `${file.name} is not an image file`,
+            description: `${file.name} must be an image or video file`,
             variant: "destructive",
           });
           continue;
         }
 
-        // Upload to Supabase storage
+        // Upload to Supabase storage (try different bucket names)
         const fileName = `products/${Date.now()}-${file.name}`;
+        const bucketName = file.type.startsWith('video/') ? 'product-videos' : 'product-images';
+        
+        // Try uploading with better error handling
         const { data, error } = await supabase.storage
-          .from('product-images')
+          .from(bucketName)
           .upload(fileName, file, {
             cacheControl: '3600',
             upsert: false
@@ -93,9 +96,18 @@ export function ObjectUploader({
 
         if (error) {
           console.error('Supabase upload error:', error);
+          
+          // Provide specific error messages for common issues
+          let errorMessage = error.message;
+          if (error.message.includes('row-level security')) {
+            errorMessage = `Storage access denied. Please configure Supabase RLS policies for ${bucketName} bucket.`;
+          } else if (error.message.includes('Bucket not found')) {
+            errorMessage = `Storage bucket '${bucketName}' not found. Please create it in your Supabase dashboard.`;
+          }
+          
           toast({
             title: "Upload failed",
-            description: `Failed to upload ${file.name}: ${error.message}`,
+            description: `${file.name}: ${errorMessage}`,
             variant: "destructive",
           });
           continue;
@@ -135,7 +147,7 @@ export function ObjectUploader({
       <input
         type="file"
         multiple
-        accept="image/*"
+        accept="image/*,video/*"
         onChange={handleFileSelect}
         style={{ display: 'none' }}
         id="supabase-file-upload"

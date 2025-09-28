@@ -279,9 +279,11 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                           <Upload className="w-4 h-4 mr-2" />
                           Upload to Supabase Storage
                         </ObjectUploader>
-                        <p className="text-xs text-muted-foreground mt-2">
-                          ⚠️ Images must be uploaded to Supabase storage for proper functionality
-                        </p>
+                        <div className="text-xs text-muted-foreground mt-2 space-y-1">
+                          <p>⚠️ Files must be uploaded to Supabase storage for proper functionality</p>
+                          <p>Supports: Images (JPG, PNG, GIF) and Videos (MP4, MOV, AVI) up to 20MB</p>
+                          <p>If upload fails, check Supabase storage bucket configuration</p>
+                        </div>
                       </div>
                     </div>
                   </div>

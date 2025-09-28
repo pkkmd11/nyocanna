@@ -61,6 +61,24 @@ export default function AdminPage() {
     }
   };
 
+  const handleDeleteAllProducts = async () => {
+    if (confirm('⚠️ WARNING: This will delete ALL products permanently. Are you absolutely sure?')) {
+      if (confirm('This action cannot be undone. Type YES in the next dialog to confirm.') && 
+          prompt('Type "DELETE ALL" to confirm:') === 'DELETE ALL') {
+        try {
+          // Delete each product individually since we don't have a bulk delete endpoint
+          for (const product of products) {
+            await deleteProduct.mutateAsync(product.id);
+          }
+          alert('All products have been deleted successfully.');
+        } catch (error) {
+          console.error('Error deleting products:', error);
+          alert('Error occurred while deleting products. Some may not have been deleted.');
+        }
+      }
+    }
+  };
+
   const getQualityBadgeClass = (quality: string) => {
     const tier = QUALITY_TIERS.find(t => t.id === quality);
     return tier?.className || 'bg-muted text-muted-foreground';
@@ -172,10 +190,20 @@ export default function AdminPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Products Management</h2>
-        <Button onClick={() => setShowProductForm(true)}>
-          <Plus className="w-4 h-4 mr-2" />
-          Add New Product
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={handleDeleteAllProducts} 
+            variant="destructive"
+            size="sm"
+            disabled={products.length === 0}
+          >
+            Delete All Products
+          </Button>
+          <Button onClick={() => setShowProductForm(true)}>
+            <Plus className="w-4 h-4 mr-2" />
+            Add New Product
+          </Button>
+        </div>
       </div>
 
       {showProductForm ? (
