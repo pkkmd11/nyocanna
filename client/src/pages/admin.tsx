@@ -214,8 +214,8 @@ export default function AdminPage() {
             descriptionEn: (editingProduct.description as any)?.en || '',
             descriptionMy: (editingProduct.description as any)?.my || '',
             quality: editingProduct.quality,
-            imageUrls: editingProduct.images?.join('\n') || '',
-            videoUrls: editingProduct.videos?.join('\n') || '',
+            // imageUrls removed - using Supabase uploads only
+            // videoUrls removed - using Supabase uploads only
             specificationsEn: ((editingProduct.specifications as any)?.en || []).join('\n'),
             specificationsMy: ((editingProduct.specifications as any)?.my || []).join('\n'),
             isActive: editingProduct.isActive,

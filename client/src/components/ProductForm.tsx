@@ -19,8 +19,6 @@ const productFormSchema = insertProductSchema.extend({
   nameMy: z.string().min(1, 'Myanmar name is required'),
   descriptionEn: z.string().min(1, 'English description is required'),
   descriptionMy: z.string().min(1, 'Myanmar description is required'),
-  imageUrls: z.string().optional(),
-  videoUrls: z.string().optional(),
   specificationsEn: z.string().optional(),
   specificationsMy: z.string().optional(),
 });
@@ -65,8 +63,6 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
       descriptionEn: '',
       descriptionMy: '',
       quality: 'medium',
-      imageUrls: '',
-      videoUrls: '',
       specificationsEn: '',
       specificationsMy: '',
       isActive: true,
@@ -79,9 +75,8 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
       alert('Submit button clicked! Processing product form...');
       console.log('Form submission data:', data);
       
-      // Combine uploaded images with URL images
-      const urlImages = data.imageUrls ? data.imageUrls.split('\n').filter(Boolean) : [];
-      const allImages = [...uploadedImages, ...urlImages];
+      // Use uploaded images only (no manual URL input)
+      const allImages = uploadedImages;
       
       const productData: InsertProduct = {
         name: {
@@ -94,7 +89,7 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
         },
         quality: data.quality,
         images: allImages,
-        videos: data.videoUrls ? data.videoUrls.split('\n').filter(Boolean) : [],
+        videos: [], // Videos will be handled by separate upload functionality
         specifications: {
           en: data.specificationsEn ? data.specificationsEn.split('\n').filter(Boolean) : [],
           my: data.specificationsMy ? data.specificationsMy.split('\n').filter(Boolean) : [],
@@ -317,44 +312,7 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                 )}
               </div>
               
-              {/* URL Input Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="imageUrls"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Additional Image URLs (Optional)</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Enter additional image URLs (one per line)" 
-                          {...field}
-                          rows={4}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-              <FormField
-                control={form.control}
-                name="videoUrls"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Video URLs</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        placeholder="Enter video URLs (one per line)" 
-                        {...field}
-                        rows={4}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              {/* URL Input Section removed - using Supabase uploads only */}
           </div>
 
             {/* Specifications */}
