@@ -11,6 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Upload, X } from 'lucide-react';
 import { z } from 'zod';
 import { useState } from 'react';
+import { ObjectUploader } from './ObjectUploader';
+import type { UploadResult } from '@uppy/core';
 
 const productFormSchema = insertProductSchema.extend({
   nameEn: z.string().min(1, 'English name is required'),
@@ -35,6 +37,79 @@ interface ProductFormProps {
 export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: ProductFormProps) {
   const { toast } = useToast();
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  
+  const handleGetUploadParameters = async () => {
+    try {
+      const response = await fetch('/api/objects/upload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to get upload URL');
+      }
+      
+      const data = await response.json();
+      return {
+        method: 'PUT' as const,
+        url: data.uploadURL,
+      };
+    } catch (error) {
+      console.error('Error getting upload parameters:', error);
+      toast({
+        title: "Upload Error",
+        description: "Failed to prepare file upload",
+        variant: "destructive",
+      });
+      throw error;
+    }
+  };
+  
+  const handleUploadComplete = async (result: UploadResult<Record<string, unknown>, Record<string, unknown>>) => {
+    try {
+      const uploadedFiles = result.successful || [];
+      const newImageUrls: string[] = [];
+      
+      for (const file of uploadedFiles) {
+        const uploadURL = file.uploadURL as string;
+        if (!uploadURL) continue;
+        
+        // Set ACL policy for the uploaded image
+        const response = await fetch('/api/product-images', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ imageURL: uploadURL }),
+        });
+        
+        if (response.ok) {
+          const { objectPath } = await response.json();
+          newImageUrls.push(`/objects${objectPath}`);
+        } else {
+          console.error('Failed to set ACL for uploaded image');
+          newImageUrls.push(uploadURL); // Fallback to direct URL
+        }
+      }
+      
+      setUploadedImages(prev => [...prev, ...newImageUrls]);
+      
+      toast({
+        title: "Upload Complete",
+        description: `Successfully uploaded ${uploadedFiles?.length || 0} image(s)`,
+      });
+      
+    } catch (error) {
+      console.error('Error processing upload:', error);
+      toast({
+        title: "Upload Error",
+        description: "Failed to process uploaded files",
+        variant: "destructive",
+      });
+    }
+  };
   
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productFormSchema),
@@ -241,27 +316,25 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                   <div className="text-center">
                     <Upload className="mx-auto h-12 w-12 text-muted-foreground/50" />
                     <div className="mt-4">
-                      <label htmlFor="file-upload" className="cursor-pointer">
-                        <span className="mt-2 block text-sm font-medium text-foreground">
-                          Upload images (max 20MB each)
-                        </span>
-                        <span className="mt-1 block text-xs text-muted-foreground">
-                          PNG, JPG, GIF up to 20MB
-                        </span>
-                      </label>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        className="sr-only"
-                        onChange={handleFileUpload}
-                      />
+                      <p className="mt-2 block text-sm font-medium text-foreground">
+                        Upload images (max 20MB each)
+                      </p>
+                      <p className="mt-1 block text-xs text-muted-foreground">
+                        PNG, JPG, GIF up to 20MB
+                      </p>
+                      <div className="mt-4">
+                        <ObjectUploader
+                          maxNumberOfFiles={10}
+                          maxFileSize={20971520}
+                          onGetUploadParameters={handleGetUploadParameters}
+                          onComplete={handleUploadComplete}
+                          buttonClassName="w-full"
+                        >
+                          <Upload className="w-4 h-4 mr-2" />
+                          Choose Files
+                        </ObjectUploader>
+                      </div>
                     </div>
-                    <Button type="button" variant="outline" className="mt-4" onClick={() => document.getElementById('file-upload')?.click()}>
-                      Choose Files
-                    </Button>
                   </div>
                 </div>
                 
