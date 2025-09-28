@@ -130,6 +130,7 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
 
   const handleSubmit = async (data: ProductFormData) => {
     try {
+      alert('Submit button clicked! Processing product form...');
       console.log('Form submission data:', data);
       
       // Combine uploaded images with URL images
@@ -451,7 +452,10 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
               <Button
                 type="button"
                 variant="outline"
-                onClick={onCancel}
+                onClick={() => {
+                  alert('Cancel button clicked! Closing form...');
+                  onCancel();
+                }}
                 disabled={isSubmitting}
               >
                 Cancel

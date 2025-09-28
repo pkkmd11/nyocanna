@@ -83,7 +83,10 @@ export function ObjectUploader({
     <div>
       <Button 
         type="button" 
-        onClick={() => setShowModal(true)} 
+        onClick={() => {
+          alert('Upload button clicked! Opening file upload modal...');
+          setShowModal(true);
+        }} 
         className={buttonClassName}
         data-testid="button-upload-files"
       >
