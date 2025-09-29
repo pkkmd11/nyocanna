@@ -1,0 +1,912 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YeYint Cannabis Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cannabis-green': '#2D5016',
+                        'light-green': '#8BC34A',
+                        'warm-orange': '#FF6B35',
+                        'success-green': '#4CAF50'
+                    },
+                    fontFamily: {
+                        'myanmar': ['Noto Sans Myanmar', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- @COMPONENT: App Container -->
+    <div id="app" class="min-h-screen">
+        
+        <!-- @COMPONENT: Header Navigation -->
+        <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo and Brand -->
+                    <div class="flex items-center space-x-3">
+                        <!-- Cannabis leaf icon placeholder -->
+                        <div class="w-8 h-8 bg-cannabis-green rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-cannabis-green">YeYint</h1>
+                            <p class="text-xs text-gray-500 font-myanmar">ရေရိုင့်</p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <div class="flex items-center space-x-4">
+                        <!-- Language Toggle -->
+                        <button id="langToggle" class="flex items-center space-x-2 px-3 py-1.5 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" data-event="click:toggleLanguage">
+                            <i class="fas fa-globe text-sm text-gray-600"></i>
+                            <span class="text-sm font-medium" data-bind="currentLanguage">EN</span>
+                        </button>
+
+                        <!-- Admin Login -->
+                        <button id="adminToggle" class="px-4 py-2 bg-cannabis-green text-white rounded-lg hover:bg-green-800 transition-colors text-sm font-medium" data-event="click:toggleAdminMode">
+                            <i class="fas fa-user-shield mr-2"></i>
+                            <span data-bind="adminButtonText">Admin</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- @COMPONENT: Client Storefront View -->
+        <div id="clientView" class="block">
+            
+            <!-- Hero Section -->
+            <section class="bg-gradient-to-br from-cannabis-green to-green-700 text-white py-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4" data-i18n="hero.title">Premium Cannabis Products</h2>
+                    <p class="text-xl text-green-100 mb-8 font-myanmar" data-i18n="hero.subtitle">အရည်အသွေးမြင့် ဆေးရုံများ</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="#products" class="bg-white text-cannabis-green px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                            <span data-i18n="hero.shop_now">Shop Now</span>
+                        </a>
+                        <a href="#contact" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-cannabis-green transition-colors">
+                            <span data-i18n="hero.contact">Contact Us</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quality Filter Section -->
+            <section id="products" class="py-8 bg-white border-b">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 sm:mb-0" data-i18n="products.title">Our Products</h3>
+                        
+                        <!-- Quality Filter Buttons -->
+                        <div class="flex flex-wrap gap-2">
+                            <button class="quality-filter active px-4 py-2 bg-cannabis-green text-white rounded-full text-sm font-medium hover:bg-green-800 transition-colors" data-quality="all" data-event="click:filterProducts">
+                                <span data-i18n="filter.all">All Quality</span>
+                            </button>
+                            <button class="quality-filter px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-300 transition-colors" data-quality="high" data-event="click:filterProducts">
+                                <span data-i18n="filter.high">High Quality</span>
+                            </button>
+                            <button class="quality-filter px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-300 transition-colors" data-quality="medium" data-event="click:filterProducts">
+                                <span data-i18n="filter.medium">Medium Quality</span>
+                            </button>
+                            <button class="quality-filter px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-300 transition-colors" data-quality="low" data-event="click:filterProducts">
+                                <span data-i18n="filter.low">Low Quality</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Product Grid -->
+            <section class="py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="productGrid">
+                        
+                        <!-- @MAP: products.map(product => ( -->
+                        
+                        <!-- Product Card 1 - High Quality -->
+                        <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" data-quality="high" data-product-id="1" data-event="click:openProductModal">
+                            <div class="aspect-[9/16] overflow-hidden">
+                                <!-- Premium OG Kush product image in 9:16 portrait orientation -->
+                                <img src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=711" alt="Premium OG Kush Cannabis" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" data-mock="true"/>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="bg-success-green text-white px-2 py-1 rounded-full text-xs font-medium">High Quality</span>
+                                    <span class="text-lg font-bold text-cannabis-green" data-bind="product.price">$25</span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-1" data-bind="product.name">Premium OG Kush</h4>
+                                <p class="text-sm text-gray-600 mb-2 font-myanmar" data-bind="product.name_myanmar">ပရီမီယံ OG Kush</p>
+                                <p class="text-sm text-gray-500 line-clamp-2" data-bind="product.description">Premium grade indica-dominant hybrid with earthy, piney flavors</p>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 2 - High Quality -->
+                        <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" data-quality="high" data-product-id="2" data-event="click:openProductModal">
+                            <div class="aspect-[9/16] overflow-hidden">
+                                <!-- Blue Dream cannabis product in 9:16 portrait orientation -->
+                                <img src="https://images.unsplash.com/photo-1513828583688-c52646db42da?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=711" alt="Blue Dream Cannabis Strain" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" data-mock="true"/>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="bg-success-green text-white px-2 py-1 rounded-full text-xs font-medium">High Quality</span>
+                                    <span class="text-lg font-bold text-cannabis-green" data-bind="product.price">$30</span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-1" data-bind="product.name">Blue Dream</h4>
+                                <p class="text-sm text-gray-600 mb-2 font-myanmar" data-bind="product.name_myanmar">မြေးရောင် အိပ်မက်</p>
+                                <p class="text-sm text-gray-500 line-clamp-2" data-bind="product.description">Balanced hybrid with sweet berry aroma and cerebral invigoration</p>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 3 - Medium Quality -->
+                        <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" data-quality="medium" data-product-id="3" data-event="click:openProductModal">
+                            <div class="aspect-[9/16] overflow-hidden">
+                                <!-- Green Crack cannabis strain in 9:16 portrait orientation -->
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=711" alt="Green Crack Cannabis Strain" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" data-mock="true"/>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="bg-light-green text-white px-2 py-1 rounded-full text-xs font-medium">Medium Quality</span>
+                                    <span class="text-lg font-bold text-cannabis-green" data-bind="product.price">$18</span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-1" data-bind="product.name">Green Crack</h4>
+                                <p class="text-sm text-gray-600 mb-2 font-myanmar" data-bind="product.name_myanmar">အစိမ်းရောင် ကြားခြင်း</p>
+                                <p class="text-sm text-gray-500 line-clamp-2" data-bind="product.description">Energizing sativa with tangy, fruity flavor profile</p>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 4 - Medium Quality -->
+                        <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" data-quality="medium" data-product-id="4" data-event="click:openProductModal">
+                            <div class="aspect-[9/16] overflow-hidden">
+                                <!-- Northern Lights cannabis in 9:16 portrait orientation -->
+                                <img src="https://images.unsplash.com/photo-1530920327699-910db5206c9f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=711" alt="Northern Lights Cannabis" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" data-mock="true"/>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="bg-light-green text-white px-2 py-1 rounded-full text-xs font-medium">Medium Quality</span>
+                                    <span class="text-lg font-bold text-cannabis-green" data-bind="product.price">$20</span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-1" data-bind="product.name">Northern Lights</h4>
+                                <p class="text-sm text-gray-600 mb-2 font-myanmar" data-bind="product.name_myanmar">မြောက်ပိုင်း အလင်းများ</p>
+                                <p class="text-sm text-gray-500 line-clamp-2" data-bind="product.description">Classic indica with relaxing effects and spicy-sweet flavor</p>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 5 - Low Quality -->
+                        <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" data-quality="low" data-product-id="5" data-event="click:openProductModal">
+                            <div class="aspect-[9/16] overflow-hidden">
+                                <!-- Affordable cannabis option in 9:16 portrait orientation -->
+                                <img src="https://images.unsplash.com/photo-1543158264-a3f2c1e8cd15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=711" alt="Budget Cannabis Option" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" data-mock="true"/>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="bg-warm-orange text-white px-2 py-1 rounded-full text-xs font-medium">Low Quality</span>
+                                    <span class="text-lg font-bold text-cannabis-green" data-bind="product.price">$12</span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-1" data-bind="product.name">Budget Blend</h4>
+                                <p class="text-sm text-gray-600 mb-2 font-myanmar" data-bind="product.name_myanmar">ဘတ်ဂျက် ရောစပ်</p>
+                                <p class="text-sm text-gray-500 line-clamp-2" data-bind="product.description">Affordable option with mild effects, perfect for beginners</p>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 6 - Low Quality -->
+                        <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" data-quality="low" data-product-id="6" data-event="click:openProductModal">
+                            <div class="aspect-[9/16] overflow-hidden">
+                                <!-- Entry level cannabis product in 9:16 portrait orientation -->
+                                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=711" alt="Entry Level Cannabis" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" data-mock="true"/>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="bg-warm-orange text-white px-2 py-1 rounded-full text-xs font-medium">Low Quality</span>
+                                    <span class="text-lg font-bold text-cannabis-green" data-bind="product.price">$10</span>
+                                </div>
+                                <h4 class="font-semibold text-gray-900 mb-1" data-bind="product.name">Entry Mix</h4>
+                                <p class="text-sm text-gray-600 mb-2 font-myanmar" data-bind="product.name_myanmar">စတင်သူအတွက် ရောစပ်</p>
+                                <p class="text-sm text-gray-500 line-clamp-2" data-bind="product.description">Gentle introduction to cannabis with manageable potency</p>
+                            </div>
+                        </div>
+
+                        <!-- @END_MAP )) -->
+                        
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="py-16 bg-white">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h3 class="text-3xl font-bold text-gray-900 mb-8" data-i18n="about.title">About YeYint</h3>
+                    <div class="space-y-6 text-gray-600">
+                        <p class="text-lg" data-i18n="about.description">We are Myanmar's trusted source for premium cannabis products, committed to quality and customer satisfaction.</p>
+                        <p class="font-myanmar text-lg" data-i18n="about.description_myanmar">ကျွန်ုပ်တို့သည် မြန်မာနိုင်ငံ၏ ယုံကြည်စိတ်ချရသော အရည်အသွေးမြင့် ဆေးရုံ ထုတ်ကုန်များ ရောင်းချသူ ဖြစ်ပါသည်။</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                            <div class="text-center">
+                                <i class="fas fa-shield-alt text-4xl text-cannabis-green mb-4"></i>
+                                <h4 class="font-semibold text-gray-900 mb-2" data-i18n="about.feature1">Quality Assured</h4>
+                                <p class="text-sm text-gray-600" data-i18n="about.feature1_desc">All products tested for purity</p>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-shipping-fast text-4xl text-cannabis-green mb-4"></i>
+                                <h4 class="font-semibold text-gray-900 mb-2" data-i18n="about.feature2">Discreet Delivery</h4>
+                                <p class="text-sm text-gray-600" data-i18n="about.feature2_desc">Private and secure shipping</p>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-headset text-4xl text-cannabis-green mb-4"></i>
+                                <h4 class="font-semibold text-gray-900 mb-2" data-i18n="about.feature3">24/7 Support</h4>
+                                <p class="text-sm text-gray-600" data-i18n="about.feature3_desc">Always here to help</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How to Order Section -->
+            <section id="contact" class="py-16 bg-gray-50">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h3 class="text-3xl font-bold text-gray-900 text-center mb-12" data-i18n="contact.title">How to Order</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                        <!-- Telegram -->
+                        <div class="text-center bg-white p-6 rounded-xl shadow-lg">
+                            <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fab fa-telegram-plane text-white text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Telegram</h4>
+                            <p class="text-sm text-gray-600 mb-4">Chat with us instantly</p>
+                            <a href="https://t.me/yeyintshop" class="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                <i class="fab fa-telegram-plane mr-2"></i>Message
+                            </a>
+                            <!-- QR Code placeholder -->
+                            <div class="mt-4 w-24 h-24 bg-gray-200 mx-auto rounded-lg flex items-center justify-center">
+                                <i class="fas fa-qrcode text-gray-400 text-xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp -->
+                        <div class="text-center bg-white p-6 rounded-xl shadow-lg">
+                            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fab fa-whatsapp text-white text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-2">WhatsApp</h4>
+                            <p class="text-sm text-gray-600 mb-4">Quick and easy ordering</p>
+                            <a href="https://wa.me/959123456789" class="inline-block bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                <i class="fab fa-whatsapp mr-2"></i>Message
+                            </a>
+                            <!-- QR Code placeholder -->
+                            <div class="mt-4 w-24 h-24 bg-gray-200 mx-auto rounded-lg flex items-center justify-center">
+                                <i class="fas fa-qrcode text-gray-400 text-xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- Messenger -->
+                        <div class="text-center bg-white p-6 rounded-xl shadow-lg">
+                            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fab fa-facebook-messenger text-white text-2xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Messenger</h4>
+                            <p class="text-sm text-gray-600 mb-4">Facebook messaging</p>
+                            <a href="https://m.me/yeyintshop" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fab fa-facebook-messenger mr-2"></i>Message
+                            </a>
+                            <!-- QR Code placeholder -->
+                            <div class="mt-4 w-24 h-24 bg-gray-200 mx-auto rounded-lg flex items-center justify-center">
+                                <i class="fas fa-qrcode text-gray-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ordering Instructions -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h4 class="text-xl font-semibold text-gray-900 mb-6 text-center">Ordering Instructions</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-cannabis-green text-white rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <span class="font-bold">1</span>
+                                </div>
+                                <h5 class="font-medium text-gray-900 mb-2">Browse Products</h5>
+                                <p class="text-sm text-gray-600">Select your preferred cannabis products</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-cannabis-green text-white rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <span class="font-bold">2</span>
+                                </div>
+                                <h5 class="font-medium text-gray-900 mb-2">Contact Us</h5>
+                                <p class="text-sm text-gray-600">Message us through your preferred platform</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-cannabis-green text-white rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <span class="font-bold">3</span>
+                                </div>
+                                <h5 class="font-medium text-gray-900 mb-2">Receive Order</h5>
+                                <p class="text-sm text-gray-600">Get your products delivered discreetly</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section id="faq" class="py-16 bg-white">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h3 class="text-3xl font-bold text-gray-900 text-center mb-12" data-i18n="faq.title">Frequently Asked Questions</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- FAQ Item 1 -->
+                        <div class="bg-gray-50 rounded-xl p-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">How do I place an order?</h4>
+                            <p class="text-gray-600">Simply browse our products, select what you want, and contact us through Telegram, WhatsApp, or Messenger. We'll guide you through the rest of the process.</p>
+                        </div>
+
+                        <!-- FAQ Item 2 -->
+                        <div class="bg-gray-50 rounded-xl p-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">Is delivery discreet?</h4>
+                            <p class="text-gray-600">Yes, all our deliveries are made in unmarked packages to ensure your privacy and discretion.</p>
+                        </div>
+
+                        <!-- FAQ Item 3 -->
+                        <div class="bg-gray-50 rounded-xl p-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">What payment methods do you accept?</h4>
+                            <p class="text-gray-600">We accept various payment methods. Please contact us directly for specific payment arrangements.</p>
+                        </div>
+
+                        <!-- FAQ Item 4 -->
+                        <div class="bg-gray-50 rounded-xl p-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">How can I verify product quality?</h4>
+                            <p class="text-gray-600">All our products come with quality certificates and lab testing results. We can provide detailed information upon request.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- @COMPONENT: Admin Management Panel -->
+        <div id="adminView" class="hidden">
+            
+            <!-- Admin Header -->
+            <div class="bg-white border-b border-gray-200 mb-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <h2 class="text-2xl font-bold text-gray-900">Admin Dashboard</h2>
+                    <p class="text-gray-600">Manage your cannabis e-commerce store</p>
+                </div>
+            </div>
+
+            <!-- Admin Navigation Tabs -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-8">
+                        <button class="admin-tab active border-cannabis-green text-cannabis-green border-b-2 py-2 px-1 text-sm font-medium" data-tab="products" data-event="click:switchAdminTab">
+                            <i class="fas fa-box mr-2"></i>Products
+                        </button>
+                        <button class="admin-tab border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium" data-tab="content" data-event="click:switchAdminTab">
+                            <i class="fas fa-edit mr-2"></i>Content
+                        </button>
+                        <button class="admin-tab border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium" data-tab="media" data-event="click:switchAdminTab">
+                            <i class="fas fa-images mr-2"></i>Media
+                        </button>
+                        <button class="admin-tab border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium" data-tab="contacts" data-event="click:switchAdminTab">
+                            <i class="fas fa-address-book mr-2"></i>Contacts
+                        </button>
+                        <button class="admin-tab border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium" data-tab="faq" data-event="click:switchAdminTab">
+                            <i class="fas fa-question-circle mr-2"></i>FAQ
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Products Management Tab -->
+            <div id="adminProducts" class="admin-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900">Product Management</h3>
+                        <button class="bg-cannabis-green text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-colors" data-event="click:addProduct">
+                            <i class="fas fa-plus mr-2"></i>Add Product
+                        </button>
+                    </div>
+
+                    <!-- Products Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full table-auto">
+                            <thead>
+                                <tr class="border-b border-gray-200">
+                                    <th class="text-left py-3 px-4 font-medium text-gray-600">Image</th>
+                                    <th class="text-left py-3 px-4 font-medium text-gray-600">Product Name</th>
+                                    <th class="text-left py-3 px-4 font-medium text-gray-600">Quality</th>
+                                    <th class="text-left py-3 px-4 font-medium text-gray-600">Price</th>
+                                    <th class="text-left py-3 px-4 font-medium text-gray-600">Status</th>
+                                    <th class="text-left py-3 px-4 font-medium text-gray-600">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- @MAP: adminProducts.map(product => ( -->
+                                <tr class="border-b border-gray-100 hover:bg-gray-50" data-mock="true">
+                                    <td class="py-3 px-4">
+                                        <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-leaf text-gray-400"></i>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <div>
+                                            <p class="font-medium text-gray-900" data-bind="product.name">Premium OG Kush</p>
+                                            <p class="text-sm text-gray-500 font-myanmar" data-bind="product.name_myanmar">ပရီမီယံ OG Kush</p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="bg-success-green text-white px-2 py-1 rounded-full text-xs font-medium" data-bind="product.quality">High Quality</span>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="font-medium text-gray-900" data-bind="product.price">$25</span>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium" data-bind="product.status">Active</span>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <div class="flex space-x-2">
+                                            <button class="text-blue-600 hover:text-blue-800" data-event="click:editProduct">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-800" data-event="click:deleteProduct">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- @END_MAP )) -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Management Tab -->
+            <div id="adminContent" class="admin-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Site Branding -->
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Site Branding</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Site Name (English)</label>
+                                <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-cannabis-green focus:border-cannabis-green" value="YeYint" data-mock="true"/>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Site Name (Myanmar)</label>
+                                <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-cannabis-green focus:border-cannabis-green font-myanmar" value="ရေရိုင့်" data-mock="true"/>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Logo Upload</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-600">Drop logo here or click to upload</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Section -->
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Hero Section</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Hero Title (English)</label>
+                                <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-cannabis-green focus:border-cannabis-green" value="Premium Cannabis Products" data-mock="true"/>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Hero Title (Myanmar)</label>
+                                <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-cannabis-green focus:border-cannabis-green font-myanmar" value="အရည်အသွေးမြင့် ဆေးရုံများ" data-mock="true"/>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Hero Background Image</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                    <i class="fas fa-image text-3xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-600">Upload hero background image</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media Management Tab -->
+            <div id="adminMedia" class="admin-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900">Media Library</h3>
+                        <button class="bg-cannabis-green text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-colors" data-event="click:uploadMedia">
+                            <i class="fas fa-upload mr-2"></i>Upload Media
+                        </button>
+                    </div>
+
+                    <!-- Media Upload Area -->
+                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center mb-8">
+                        <i class="fas fa-cloud-upload-alt text-6xl text-gray-400 mb-4"></i>
+                        <h4 class="text-lg font-medium text-gray-900 mb-2">Upload Images & Videos</h4>
+                        <p class="text-gray-600 mb-4">Drag and drop files here or click to browse</p>
+                        <p class="text-sm text-gray-500">Required: 9:16 aspect ratio for all product media</p>
+                        <button class="mt-4 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors">
+                            Browse Files
+                        </button>
+                    </div>
+
+                    <!-- Media Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <!-- Media item placeholder -->
+                        <div class="aspect-[9/16] bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-300 transition-colors" data-mock="true">
+                            <i class="fas fa-image text-gray-400 text-2xl"></i>
+                        </div>
+                        <div class="aspect-[9/16] bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-300 transition-colors" data-mock="true">
+                            <i class="fas fa-video text-gray-400 text-2xl"></i>
+                        </div>
+                        <div class="aspect-[9/16] bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-300 transition-colors" data-mock="true">
+                            <i class="fas fa-image text-gray-400 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contacts Management Tab -->
+            <div id="adminContacts" class="admin-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-6">Contact Information</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Messaging Platforms -->
+                        <div>
+                            <h4 class="text-lg font-medium text-gray-900 mb-4">Messaging Platforms</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Telegram Username</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-cannabis-green focus:border-cannabis-green" value="@yeyintshop" data-mock="true"/>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">WhatsApp Number</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-cannabis-green focus:border-cannabis-green" value="+959123456789" data-mock="true"/>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Messenger Link</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-cannabis-green focus:border-cannabis-green" value="https://m.me/yeyintshop" data-mock="true"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- QR Codes -->
+                        <div>
+                            <h4 class="text-lg font-medium text-gray-900 mb-4">QR Codes</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Telegram QR Code</label>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                        <i class="fas fa-qrcode text-2xl text-gray-400 mb-2"></i>
+                                        <p class="text-sm text-gray-600">Upload QR code</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">WhatsApp QR Code</label>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                        <i class="fas fa-qrcode text-2xl text-gray-400 mb-2"></i>
+                                        <p class="text-sm text-gray-600">Upload QR code</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Management Tab -->
+            <div id="adminFAQ" class="admin-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900">FAQ Management</h3>
+                        <button class="bg-cannabis-green text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-colors" data-event="click:addFAQ">
+                            <i class="fas fa-plus mr-2"></i>Add FAQ
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- FAQ Item -->
+                        <div class="border border-gray-200 rounded-lg p-4" data-mock="true">
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="font-medium text-gray-900">How do I place an order?</h4>
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800" data-event="click:editFAQ">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-800" data-event="click:deleteFAQ">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm">Simply browse our products, select what you want, and contact us through Telegram, WhatsApp, or Messenger.</p>
+                        </div>
+
+                        <!-- Customer Screenshots Section -->
+                        <div class="mt-8 border-t border-gray-200 pt-8">
+                            <h4 class="text-lg font-medium text-gray-900 mb-4">Customer Conversations & Screenshots</h4>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                                <i class="fas fa-images text-4xl text-gray-400 mb-4"></i>
+                                <h5 class="font-medium text-gray-900 mb-2">Upload Customer Screenshots</h5>
+                                <p class="text-gray-600 mb-4">Upload screenshots of customer conversations for FAQ examples</p>
+                                <button class="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                                    Upload Screenshots
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- @COMPONENT: Product Detail Modal -->
+        <div id="productModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="sticky top-0 bg-white border-b border-gray-200 p-4 flex justify-between items-center">
+                    <h3 class="text-xl font-semibold text-gray-900" data-bind="modal.productName">Product Details</h3>
+                    <button class="text-gray-500 hover:text-gray-700" data-event="click:closeModal">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Image Gallery -->
+                        <div>
+                            <!-- Main Image -->
+                            <div class="aspect-[9/16] mb-4 rounded-xl overflow-hidden">
+                                <!-- Premium cannabis product main image in 9:16 portrait orientation -->
+                                <img id="modalMainImage" src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=1067" alt="Product Main Image" class="w-full h-full object-cover" data-mock="true"/>
+                            </div>
+                            
+                            <!-- Thumbnail Gallery -->
+                            <div class="grid grid-cols-4 gap-2">
+                                <!-- Cannabis product thumbnail 1 in 9:16 aspect ratio -->
+                                <img src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=267" alt="Product Image 1" class="aspect-[9/16] object-cover rounded-lg cursor-pointer hover:opacity-75 transition-opacity" data-mock="true"/>
+                                <!-- Cannabis product thumbnail 2 in 9:16 aspect ratio -->
+                                <img src="https://images.unsplash.com/photo-1513828583688-c52646db42da?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=267" alt="Product Image 2" class="aspect-[9/16] object-cover rounded-lg cursor-pointer hover:opacity-75 transition-opacity" data-mock="true"/>
+                                <!-- Cannabis product thumbnail 3 in 9:16 aspect ratio -->
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=267" alt="Product Image 3" class="aspect-[9/16] object-cover rounded-lg cursor-pointer hover:opacity-75 transition-opacity" data-mock="true"/>
+                                <!-- Video thumbnail placeholder -->
+                                <div class="aspect-[9/16] bg-gray-200 rounded-lg cursor-pointer hover:bg-gray-300 transition-colors flex items-center justify-center" data-mock="true">
+                                    <i class="fas fa-play text-gray-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Info -->
+                        <div>
+                            <div class="mb-4">
+                                <span class="bg-success-green text-white px-3 py-1 rounded-full text-sm font-medium" data-bind="modal.quality">High Quality</span>
+                            </div>
+                            
+                            <h2 class="text-2xl font-bold text-gray-900 mb-2" data-bind="modal.productName">Premium OG Kush</h2>
+                            <p class="text-lg text-gray-600 mb-4 font-myanmar" data-bind="modal.productNameMyanmar">ပရီမီယံ OG Kush</p>
+                            
+                            <div class="text-3xl font-bold text-cannabis-green mb-6" data-bind="modal.price">$25</div>
+                            
+                            <div class="prose prose-sm text-gray-600 mb-8">
+                                <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+                                <p data-bind="modal.description">Premium grade indica-dominant hybrid with earthy, piney flavors and relaxing effects. Perfect for evening use and stress relief. THC content: 20-25%.</p>
+                                
+                                <h4 class="font-semibold text-gray-900 mb-2 mt-4">Effects</h4>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Deep relaxation</li>
+                                    <li>Stress relief</li>
+                                    <li>Pain management</li>
+                                    <li>Sleep aid</li>
+                                </ul>
+                            </div>
+
+                            <!-- Contact Buttons -->
+                            <div class="space-y-3">
+                                <h4 class="font-semibold text-gray-900">Order this product:</h4>
+                                
+                                <a href="https://t.me/yeyintshop?text=I'm interested in Premium OG Kush - $25" class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center">
+                                    <i class="fab fa-telegram-plane mr-3"></i>
+                                    Order via Telegram
+                                </a>
+                                
+                                <a href="https://wa.me/959123456789?text=I'm interested in Premium OG Kush - $25" class="w-full bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center">
+                                    <i class="fab fa-whatsapp mr-3"></i>
+                                    Order via WhatsApp
+                                </a>
+                                
+                                <a href="https://m.me/yeyintshop?text=I'm interested in Premium OG Kush - $25" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
+                                    <i class="fab fa-facebook-messenger mr-3"></i>
+                                    Order via Messenger
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-cannabis-green text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                                <i class="fas fa-leaf text-cannabis-green text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold">YeYint</h4>
+                                <p class="text-sm text-green-200 font-myanmar">ရေရိုင့်</p>
+                            </div>
+                        </div>
+                        <p class="text-green-200">Premium cannabis products with quality assurance and discreet delivery across Myanmar.</p>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-semibold mb-4">Quick Links</h5>
+                        <ul class="space-y-2 text-green-200">
+                            <li><a href="#products" class="hover:text-white transition-colors">Products</a></li>
+                            <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
+                            <li><a href="#contact" class="hover:text-white transition-colors">How to Order</a></li>
+                            <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-semibold mb-4">Contact Us</h5>
+                        <div class="space-y-2 text-green-200">
+                            <p><i class="fab fa-telegram-plane mr-2"></i> @yeyintshop</p>
+                            <p><i class="fab fa-whatsapp mr-2"></i> +959123456789</p>
+                            <p><i class="fab fa-facebook-messenger mr-2"></i> YeYint Shop</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-green-600 mt-8 pt-8 text-center text-green-200">
+                    <p>&copy; 2024 YeYint Cannabis Store. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // TODO: Implement React state management, Supabase integration, and business logic
+        
+        (function() {
+            // Application state
+            let currentView = 'client';
+            let currentLanguage = 'en';
+            let activeQualityFilter = 'all';
+            let activeAdminTab = 'products';
+
+            // DOM elements
+            const clientView = document.getElementById('clientView');
+            const adminView = document.getElementById('adminView');
+            const adminToggle = document.getElementById('adminToggle');
+            const langToggle = document.getElementById('langToggle');
+            const productModal = document.getElementById('productModal');
+            const qualityFilters = document.querySelectorAll('.quality-filter');
+            const productCards = document.querySelectorAll('.product-card');
+            const adminTabs = document.querySelectorAll('.admin-tab');
+            const adminContents = document.querySelectorAll('.admin-content');
+
+            // Toggle between client and admin views
+            adminToggle.addEventListener('click', function() {
+                if (currentView === 'client') {
+                    currentView = 'admin';
+                    clientView.classList.add('hidden');
+                    adminView.classList.remove('hidden');
+                    adminToggle.innerHTML = '<i class="fas fa-store mr-2"></i>Storefront';
+                } else {
+                    currentView = 'client';
+                    clientView.classList.remove('hidden');
+                    adminView.classList.add('hidden');
+                    adminToggle.innerHTML = '<i class="fas fa-user-shield mr-2"></i>Admin';
+                }
+            });
+
+            // Language toggle
+            langToggle.addEventListener('click', function() {
+                currentLanguage = currentLanguage === 'en' ? 'my' : 'en';
+                document.querySelector('[data-bind="currentLanguage"]').textContent = currentLanguage.toUpperCase();
+                // TODO: Implement full i18n translation switching
+            });
+
+            // Quality filter functionality
+            qualityFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    const quality = this.dataset.quality;
+                    
+                    // Update active filter
+                    qualityFilters.forEach(f => {
+                        f.classList.remove('active', 'bg-cannabis-green', 'text-white');
+                        f.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    this.classList.add('active', 'bg-cannabis-green', 'text-white');
+                    this.classList.remove('bg-gray-200', 'text-gray-700');
+                    
+                    // Filter products
+                    productCards.forEach(card => {
+                        if (quality === 'all' || card.dataset.quality === quality) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    activeQualityFilter = quality;
+                });
+            });
+
+            // Product card click to open modal
+            productCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const productId = this.dataset.productId;
+                    // TODO: Load product data from Supabase
+                    productModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close modal
+            productModal.addEventListener('click', function(e) {
+                if (e.target === this || e.target.closest('[data-event="click:closeModal"]')) {
+                    this.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Admin tab switching
+            adminTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    
+                    // Update active tab
+                    adminTabs.forEach(t => {
+                        t.classList.remove('border-cannabis-green', 'text-cannabis-green');
+                        t.classList.add('border-transparent', 'text-gray-500');
+                    });
+                    this.classList.add('border-cannabis-green', 'text-cannabis-green');
+                    this.classList.remove('border-transparent', 'text-gray-500');
+                    
+                    // Show corresponding content
+                    adminContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    document.getElementById(`admin${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.remove('hidden');
+                    
+                    activeAdminTab = tabName;
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Initialize
+            console.log('YeYint Cannabis Store initialized');
+            // TODO: Initialize Supabase client and load initial data
+            // TODO: Implement user authentication for admin panel
+            // TODO: Set up real-time data synchronization
+        })();
+    </script>
+</body>
+</html>

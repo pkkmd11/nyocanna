@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YeYint Cannabis - Premium Quality Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Myanmar:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cannabis-green': '#2D5016',
+            'light-green': '#8BC34A',
+            'clean-white': '#F8F9FA',
+            'dark-text': '#1B1B1B',
+            'warm-orange': '#FF6B35',
+            'success-green': '#4CAF50'
+          },
+          fontFamily: {
+            'myanmar': ['Noto Sans Myanmar', 'sans-serif'],
+            'inter': ['Inter', 'sans-serif']
+          },
+          aspectRatio: {
+            '9/16': '9 / 16'
+          }
+        }
+      }
+    };
+    </script>
+    <style>
+        .aspect-9-16 {
+            aspect-ratio: 9 / 16;
+        }
+        .transition-smooth {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body class="bg-clean-white text-dark-text font-inter">
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 glass-effect border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-cannabis-green rounded-lg flex items-center justify-center">
+                        <i class="fas fa-leaf text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-cannabis-green">YeYint</h1>
+                        <p class="text-xs text-gray-500 font-myanmar">ယေရင့်</p>
+                    </div>
+                </div>
+
+                <!-- Language Toggle & Admin Login -->
+                <div class="flex items-center space-x-4">
+                    <button id="langToggle" class="px-3 py-1 text-sm border border-cannabis-green text-cannabis-green rounded-md hover:bg-cannabis-green hover:text-white transition-smooth">
+                        <span class="lang-en">မြန်မာ</span>
+                        <span class="lang-mm hidden">EN</span>
+                    </button>
+                    <button id="adminLoginBtn" class="px-4 py-2 bg-cannabis-green text-white rounded-md hover:bg-opacity-90 transition-smooth">
+                        <span class="lang-en">Admin</span>
+                        <span class="lang-mm hidden">စီမံခန့်ခွဲ</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- @COMPONENT: ClientStorefront -->
+        <div id="clientView" class="min-h-screen">
+            <!-- Hero Section -->
+            <section class="relative py-20 px-4 text-center">
+                <!-- Premium cannabis flower buds on a clean white background -->
+                <div class="absolute inset-0 bg-gradient-to-br from-light-green/10 to-cannabis-green/5"></div>
+                <div class="relative max-w-4xl mx-auto">
+                    <h2 class="text-4xl md:text-6xl font-bold mb-6 text-cannabis-green">
+                        <span class="lang-en">Premium Cannabis</span>
+                        <span class="lang-mm hidden font-myanmar">အရည်အသွေးမြင့် ဂဉ်း</span>
+                    </h2>
+                    <p class="text-xl md:text-2xl mb-12 text-gray-600">
+                        <span class="lang-en">Quality tiers for every preference</span>
+                        <span class="lang-mm hidden font-myanmar">နှစ်သက်မှုအလိုက် အရည်အသွေးအဆင့်များ</span>
+                    </p>
+
+                    <!-- Quality Tier Navigation -->
+                    <div class="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                        <!-- High Quality -->
+                        <button class="quality-tier-btn bg-gradient-to-br from-cannabis-green to-cannabis-green/80 text-white p-8 rounded-2xl hover:scale-105 transition-smooth shadow-lg" data-tier="high">
+                            <div class="mb-4">
+                                <i class="fas fa-crown text-3xl mb-2"></i>
+                                <h3 class="text-xl font-bold">
+                                    <span class="lang-en">High Quality</span>
+                                    <span class="lang-mm hidden font-myanmar">အရည်အသွေးမြင့်</span>
+                                </h3>
+                            </div>
+                            <p class="text-sm opacity-90">
+                                <span class="lang-en">Premium grade products</span>
+                                <span class="lang-mm hidden font-myanmar">ပရီမီယံအဆင့် ထုတ်ကုန်များ</span>
+                            </p>
+                        </button>
+
+                        <!-- Medium Quality -->
+                        <button class="quality-tier-btn bg-gradient-to-br from-light-green to-light-green/80 text-white p-8 rounded-2xl hover:scale-105 transition-smooth shadow-lg" data-tier="medium">
+                            <div class="mb-4">
+                                <i class="fas fa-star text-3xl mb-2"></i>
+                                <h3 class="text-xl font-bold">
+                                    <span class="lang-en">Medium Quality</span>
+                                    <span class="lang-mm hidden font-myanmar">အရည်အသွေးအလယ်အလတ်</span>
+                                </h3>
+                            </div>
+                            <p class="text-sm opacity-90">
+                                <span class="lang-en">Balanced quality & value</span>
+                                <span class="lang-mm hidden font-myanmar">အရည်အသွေးနှင့်တန်ဖိုး ဟန်ချက်ညီ</span>
+                            </p>
+                        </button>
+
+                        <!-- Low Quality -->
+                        <button class="quality-tier-btn bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white p-8 rounded-2xl hover:scale-105 transition-smooth shadow-lg" data-tier="low">
+                            <div class="mb-4">
+                                <i class="fas fa-dollar-sign text-3xl mb-2"></i>
+                                <h3 class="text-xl font-bold">
+                                    <span class="lang-en">Budget Quality</span>
+                                    <span class="lang-mm hidden font-myanmar">စျေးသက်သာသော အရည်အသွေး</span>
+                                </h3>
+                            </div>
+                            <p class="text-sm opacity-90">
+                                <span class="lang-en">Affordable options</span>
+                                <span class="lang-mm hidden font-myanmar">တတ်နိုင်သော ရွေးချယ်မှုများ</span>
+                            </p>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Product Catalog Section -->
+            <section id="productCatalog" class="py-16 px-4 hidden">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h3 id="catalogTitle" class="text-3xl font-bold text-cannabis-green mb-2"></h3>
+                            <button id="backToHome" class="text-gray-600 hover:text-cannabis-green transition-smooth">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                <span class="lang-en">Back to Categories</span>
+                                <span class="lang-mm hidden font-myanmar">အမျိုးအစားများသို့ပြန်</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Grid -->
+                    <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- Products will be dynamically inserted here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Video Gallery Section -->
+            <section id="videoGallery" class="py-16 px-4 bg-gray-50 hidden">
+                <div class="max-w-7xl mx-auto">
+                    <h3 class="text-3xl font-bold text-cannabis-green mb-8 text-center">
+                        <span class="lang-en">Product Videos</span>
+                        <span class="lang-mm hidden font-myanmar">ထုတ်ကုန်ဗီဒီယိုများ</span>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Video placeholders -->
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                            <div class="aspect-9-16 bg-gray-200 flex items-center justify-center">
+                                <i class="fas fa-play-circle text-4xl text-cannabis-green"></i>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="font-semibold mb-2">
+                                    <span class="lang-en">Product Showcase</span>
+                                    <span class="lang-mm hidden font-myanmar">ထုတ်ကုန်မိတ်ဆက်</span>
+                                </h4>
+                                <p class="text-sm text-gray-600">
+                                    <span class="lang-en">Detailed product overview</span>
+                                    <span class="lang-mm hidden font-myanmar">ထုတ်ကုန်အသေးစိတ်ရှုမြင်ချက်</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Sections -->
+            <section class="py-16 px-4">
+                <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 text-center">
+                    <!-- About Us -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-smooth">
+                        <i class="fas fa-info-circle text-3xl text-cannabis-green mb-4"></i>
+                        <h3 class="text-xl font-bold mb-4">
+                            <span class="lang-en">About Us</span>
+                            <span class="lang-mm hidden font-myanmar">ကျွန်ုပ်တို့အကြောင်း</span>
+                        </h3>
+                        <p class="text-gray-600 mb-6">
+                            <span class="lang-en">Learn about our quality standards and commitment to excellence</span>
+                            <span class="lang-mm hidden font-myanmar">ကျွန်ုပ်တို့၏ အရည်အသွေးစံချိန်နှင့် အမြင့်မြတ်ဆုံးရည်မှန်းချက်အကြောင်း လေ့လာပါ</span>
+                        </p>
+                        <button class="nav-btn bg-cannabis-green text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-smooth" data-section="about">
+                            <span class="lang-en">Learn More</span>
+                            <span class="lang-mm hidden font-myanmar">ပိုမိုလေ့လာ</span>
+                        </button>
+                    </div>
+
+                    <!-- How to Order -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-smooth">
+                        <i class="fas fa-shopping-cart text-3xl text-light-green mb-4"></i>
+                        <h3 class="text-xl font-bold mb-4">
+                            <span class="lang-en">How to Order</span>
+                            <span class="lang-mm hidden font-myanmar">မှာယူပုံ</span>
+                        </h3>
+                        <p class="text-gray-600 mb-6">
+                            <span class="lang-en">Contact us directly through your preferred messaging platform</span>
+                            <span class="lang-mm hidden font-myanmar">သင်နှစ်သက်သော မက်ဆေ့ချ်ပလပ်ဖောင်းမှတစ်ဆင့် တိုက်ရိုက်ဆက်သွယ်ပါ</span>
+                        </p>
+                        <button class="nav-btn bg-light-green text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-smooth" data-section="order">
+                            <span class="lang-en">Order Now</span>
+                            <span class="lang-mm hidden font-myanmar">ယခုမှာယူ</span>
+                        </button>
+                    </div>
+
+                    <!-- FAQ -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-smooth">
+                        <i class="fas fa-question-circle text-3xl text-warm-orange mb-4"></i>
+                        <h3 class="text-xl font-bold mb-4">
+                            <span class="lang-en">FAQ</span>
+                            <span class="lang-mm hidden font-myanmar">မေးလေ့ရှိသောမေးခွန်းများ</span>
+                        </h3>
+                        <p class="text-gray-600 mb-6">
+                            <span class="lang-en">Find answers to common questions about our products and services</span>
+                            <span class="lang-mm hidden font-myanmar">ကျွန်ုပ်တို့၏ ထုတ်ကုန်များနှင့် ဝန်ဆောင်မှုများအကြောင်း မေးလေ့ရှိသော မေးခွန်းများ၏ အဖြေများ ရှာပါ</span>
+                        </p>
+                        <button class="nav-btn bg-warm-orange text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-smooth" data-section="faq">
+                            <span class="lang-en">View FAQ</span>
+                            <span class="lang-mm hidden font-myanmar">FAQ ကြည့်ရှု</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contactSection" class="py-16 px-4 bg-cannabis-green text-white">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h3 class="text-3xl font-bold mb-8">
+                        <span class="lang-en">Contact Us</span>
+                        <span class="lang-mm hidden font-myanmar">ကျွန်ုပ်တို့အား ဆက်သွယ်ပါ</span>
+                    </h3>
+                    
+                    <!-- Messaging Platforms -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        <!-- Telegram -->
+                        <div class="bg-white/10 p-6 rounded-2xl backdrop-blur">
+                            <i class="fab fa-telegram text-4xl mb-4"></i>
+                            <h4 class="text-xl font-bold mb-2">Telegram</h4>
+                            <button class="bg-white text-cannabis-green px-6 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-smooth">
+                                <span class="lang-en">Message Us</span>
+                                <span class="lang-mm hidden font-myanmar">မက်ဆေ့ချ်ပို့</span>
+                            </button>
+                            <!-- QR Code placeholder -->
+                            <div class="mt-4 w-20 h-20 bg-white/20 rounded-lg mx-auto flex items-center justify-center">
+                                <i class="fas fa-qrcode text-xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp -->
+                        <div class="bg-white/10 p-6 rounded-2xl backdrop-blur">
+                            <i class="fab fa-whatsapp text-4xl mb-4"></i>
+                            <h4 class="text-xl font-bold mb-2">WhatsApp</h4>
+                            <button class="bg-white text-cannabis-green px-6 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-smooth">
+                                <span class="lang-en">Chat Now</span>
+                                <span class="lang-mm hidden font-myanmar">ယခုစကားပြော</span>
+                            </button>
+                            <!-- QR Code placeholder -->
+                            <div class="mt-4 w-20 h-20 bg-white/20 rounded-lg mx-auto flex items-center justify-center">
+                                <i class="fas fa-qrcode text-xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- Messenger -->
+                        <div class="bg-white/10 p-6 rounded-2xl backdrop-blur">
+                            <i class="fab fa-facebook-messenger text-4xl mb-4"></i>
+                            <h4 class="text-xl font-bold mb-2">Messenger</h4>
+                            <button class="bg-white text-cannabis-green px-6 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-smooth">
+                                <span class="lang-en">Send Message</span>
+                                <span class="lang-mm hidden font-myanmar">မက်ဆေ့ချ်ပို့</span>
+                            </button>
+                            <!-- QR Code placeholder -->
+                            <div class="mt-4 w-20 h-20 bg-white/20 rounded-lg mx-auto flex items-center justify-center">
+                                <i class="fas fa-qrcode text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- @END_COMPONENT: ClientStorefront -->
+
+        <!-- @COMPONENT: AdminPanel -->
+        <div id="adminView" class="hidden min-h-screen bg-gray-50">
+            <!-- Admin Header -->
+            <div class="bg-white border-b border-gray-200 px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-cannabis-green">Admin Dashboard</h2>
+                        <p class="text-sm text-gray-600">Content Management System</p>
+                    </div>
+                    <button id="logoutBtn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-smooth">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Navigation -->
+            <div class="flex h-screen">
+                <!-- Sidebar -->
+                <nav class="w-64 bg-white border-r border-gray-200 p-6">
+                    <ul class="space-y-2">
+                        <li>
+                            <button class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-cannabis-green hover:text-white transition-smooth" data-panel="products">
+                                <i class="fas fa-cannabis mr-3"></i>Products
+                            </button>
+                        </li>
+                        <li>
+                            <button class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-cannabis-green hover:text-white transition-smooth" data-panel="media">
+                                <i class="fas fa-images mr-3"></i>Media Gallery
+                            </button>
+                        </li>
+                        <li>
+                            <button class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-cannabis-green hover:text-white transition-smooth" data-panel="content">
+                                <i class="fas fa-edit mr-3"></i>Content Management
+                            </button>
+                        </li>
+                        <li>
+                            <button class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-cannabis-green hover:text-white transition-smooth" data-panel="contacts">
+                                <i class="fas fa-address-book mr-3"></i>Contact Settings
+                            </button>
+                        </li>
+                        <li>
+                            <button class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-cannabis-green hover:text-white transition-smooth" data-panel="analytics">
+                                <i class="fas fa-chart-bar mr-3"></i>Analytics
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Main Admin Content -->
+                <div class="flex-1 p-6">
+                    <!-- Products Panel -->
+                    <div id="productsPanel" class="admin-panel">
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold">Product Management</h3>
+                                <button class="bg-cannabis-green text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-smooth">
+                                    <i class="fas fa-plus mr-2"></i>Add Product
+                                </button>
+                            </div>
+
+                            <!-- Products Table -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full table-auto">
+                                    <thead>
+                                        <tr class="border-b border-gray-200">
+                                            <th class="text-left py-3 px-4">Product</th>
+                                            <th class="text-left py-3 px-4">Quality Tier</th>
+                                            <th class="text-left py-3 px-4">Images</th>
+                                            <th class="text-left py-3 px-4">Status</th>
+                                            <th class="text-left py-3 px-4">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                            <td class="py-4 px-4">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-12 h-16 bg-gray-200 rounded aspect-9-16"></div>
+                                                    <div>
+                                                        <p class="font-semibold">Premium OG Kush</p>
+                                                        <p class="text-sm text-gray-600">High-grade indoor strain</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="py-4 px-4">
+                                                <span class="bg-cannabis-green text-white px-2 py-1 rounded-full text-xs">High Quality</span>
+                                            </td>
+                                            <td class="py-4 px-4">3/3</td>
+                                            <td class="py-4 px-4">
+                                                <span class="bg-success-green text-white px-2 py-1 rounded-full text-xs">Active</span>
+                                            </td>
+                                            <td class="py-4 px-4">
+                                                <div class="flex space-x-2">
+                                                    <button class="text-blue-500 hover:text-blue-700">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="text-red-500 hover:text-red-700">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Additional product rows... -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Media Panel -->
+                    <div id="mediaPanel" class="admin-panel hidden">
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold">Media Gallery</h3>
+                                <button class="bg-cannabis-green text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-smooth">
+                                    <i class="fas fa-upload mr-2"></i>Upload Media
+                                </button>
+                            </div>
+
+                            <!-- Media Grid -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                                <!-- Close-up view of premium cannabis buds with visible trichomes -->
+                                <div class="relative group">
+                                    <div class="aspect-9-16 bg-gray-200 rounded-lg overflow-hidden">
+                                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533" alt="Cannabis bud close-up" class="w-full h-full object-cover" />
+                                    </div>
+                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-smooth rounded-lg flex items-center justify-center">
+                                        <div class="opacity-0 group-hover:opacity-100 transition-smooth">
+                                            <button class="text-white mx-1">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-white mx-1">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Repeat for more media items... -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Management Panel -->
+                    <div id="contentPanel" class="admin-panel hidden">
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold mb-6">Content Management</h3>
+                            
+                            <!-- Content Form -->
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">About Us (English)</label>
+                                    <textarea class="w-full p-3 border border-gray-300 rounded-lg resize-none h-32" placeholder="Enter about us content in English..."></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">About Us (Burmese)</label>
+                                    <textarea class="w-full p-3 border border-gray-300 rounded-lg resize-none h-32 font-myanmar" placeholder="ကျွန်ုပ်တို့အကြောင်း မြန်မာဘာသာဖြင့် ရေးပါ..."></textarea>
+                                </div>
+                                
+                                <button class="bg-success-green text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-smooth">
+                                    <i class="fas fa-save mr-2"></i>Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Settings Panel -->
+                    <div id="contactsPanel" class="admin-panel hidden">
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold mb-6">Contact Settings</h3>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Telegram Link</label>
+                                    <input type="url" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="https://t.me/yeyint" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">WhatsApp Number</label>
+                                    <input type="tel" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="+95 9xxxxxxxxx" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2">Facebook Messenger</label>
+                                    <input type="url" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="https://m.me/yeyint" />
+                                </div>
+                            </div>
+                            
+                            <button class="mt-6 bg-success-green text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-smooth">
+                                <i class="fas fa-save mr-2"></i>Update Contact Info
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Panel -->
+                    <div id="analyticsPanel" class="admin-panel hidden">
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold mb-6">Analytics Overview</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                <!-- Stats Cards -->
+                                <div class="bg-gradient-to-br from-cannabis-green to-cannabis-green/80 text-white p-6 rounded-xl">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm opacity-80">Total Products</p>
+                                            <p class="text-2xl font-bold">24</p>
+                                        </div>
+                                        <i class="fas fa-cannabis text-2xl opacity-80"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-br from-light-green to-light-green/80 text-white p-6 rounded-xl">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm opacity-80">Monthly Inquiries</p>
+                                            <p class="text-2xl font-bold">156</p>
+                                        </div>
+                                        <i class="fas fa-comments text-2xl opacity-80"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white p-6 rounded-xl">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm opacity-80">Page Views</p>
+                                            <p class="text-2xl font-bold">2.4k</p>
+                                        </div>
+                                        <i class="fas fa-eye text-2xl opacity-80"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: AdminPanel -->
+    </main>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="modalProductName" class="text-2xl font-bold text-cannabis-green"></h3>
+                    <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Product Images -->
+                    <div>
+                        <div id="modalMainImage" class="aspect-9-16 bg-gray-200 rounded-lg mb-4 overflow-hidden">
+                            <!-- Main product image will be inserted here -->
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <!-- Thumbnail images -->
+                        </div>
+                    </div>
+                    
+                    <!-- Product Details -->
+                    <div>
+                        <div id="modalProductDescription" class="mb-6">
+                            <!-- Product description will be inserted here -->
+                        </div>
+                        
+                        <!-- Contact Buttons -->
+                        <div class="space-y-3">
+                            <button class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-smooth">
+                                <i class="fab fa-telegram mr-2"></i>
+                                <span class="lang-en">Order via Telegram</span>
+                                <span class="lang-mm hidden font-myanmar">Telegram မှတစ်ဆင့် မှာယူ</span>
+                            </button>
+                            <button class="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-smooth">
+                                <i class="fab fa-whatsapp mr-2"></i>
+                                <span class="lang-en">Order via WhatsApp</span>
+                                <span class="lang-mm hidden font-myanmar">WhatsApp မှတစ်ဆင့် မှာယူ</span>
+                            </button>
+                            <button class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-smooth">
+                                <i class="fab fa-facebook-messenger mr-2"></i>
+                                <span class="lang-en">Order via Messenger</span>
+                                <span class="lang-mm hidden font-myanmar">Messenger မှတစ်ဆင့် မှာယူ</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Sample product data
+            const productData = {
+                high: [
+                    {
+                        id: 1,
+                        name: { en: "Premium OG Kush", mm: "အမြင့်မြတ်ဆုံး OG Kush" },
+                        description: { 
+                            en: "Top-shelf indoor grown OG Kush with exceptional potency and flavor profile. Dense buds with perfect trichome coverage.",
+                            mm: "အရည်အသွေးမြင့်မား ခန်းထဲ စိုက်ပျိုးထားသော OG Kush ဖြစ်ပြီး အထူးသန်မာမှုနှင့် အရသာရှိသည်။"
+                        },
+                        images: [
+                            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533",
+                            "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533",
+                            "https://images.unsplash.com/photo-1615234543419-a9a1b0013ade?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533"
+                        ]
+                    },
+                    {
+                        id: 2,
+                        name: { en: "Purple Haze Elite", mm: "ခရမ်းရောင် မွေး အမြင့်မြတ်" },
+                        description: { 
+                            en: "Classic Purple Haze strain with rich purple hues and exceptional cerebral effects. Perfect for experienced users.",
+                            mm: "ရှေးကျသော Purple Haze မျိုးစေ့ဖြစ်ပြီး ကြွယ်ဝသော ခရမ်းရောင်နှင့် ထူးခြားသောအကျိုးသက်ရောက်မှုရှိသည်။"
+                        },
+                        images: [
+                            "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533",
+                            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533",
+                            "https://images.unsplash.com/photo-1615234543419-a9a1b0013ade?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533"
+                        ]
+                    }
+                ],
+                medium: [
+                    {
+                        id: 3,
+                        name: { en: "Green Crack", mm: "စိမ်းလန်းသော ကရက်" },
+                        description: { 
+                            en: "Energizing sativa strain with bright green buds and citrusy aroma. Great for daytime use.",
+                            mm: "စွမ်းအင်ပေးသော sativa မျိုးစေ့ဖြစ်ပြီး တောက်ပသော စိမ်းရောင်နှင့် သံပုရာအနံ့ရှိသည်။"
+                        },
+                        images: [
+                            "https://images.unsplash.com/photo-1615234543419-a9a1b0013ade?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533",
+                            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533",
+                            "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533"
+                        ]
+                    }
+                ],
+                low: [
+                    {
+                        id: 4,
+                        name: { en: "Budget Blend", mm: "စျေးသက်သာ ရောစပ်" },
+                        description: { 
+                            en: "Affordable mix of quality strains perfect for beginners or budget-conscious users.",
+                            mm: "အစပြုသူများ သို့မဟုတ် ငွေကုန်ကျစရိတ် သတိထားသူများအတွက် သင့်လျော်သော အရည်အသွေးမျိုးစေ့များ ရောစပ်ထားသည်။"
+                        },
+                        images: [
+                            "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533",
+                            "https://images.unsplash.com/photo-1615234543419-a9a1b0013ade?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533",
+                            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=533"
+                        ]
+                    }
+                ]
+            };
+
+            let currentLanguage = 'en';
+            let currentView = 'client';
+
+            // DOM Elements
+            const langToggle = document.getElementById('langToggle');
+            const adminLoginBtn = document.getElementById('adminLoginBtn');
+            const clientView = document.getElementById('clientView');
+            const adminView = document.getElementById('adminView');
+            const productCatalog = document.getElementById('productCatalog');
+            const productGrid = document.getElementById('productGrid');
+            const catalogTitle = document.getElementById('catalogTitle');
+            const backToHome = document.getElementById('backToHome');
+            const productModal = document.getElementById('productModal');
+            const closeModal = document.getElementById('closeModal');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            // Language Toggle
+            langToggle.addEventListener('click', () => {
+                currentLanguage = currentLanguage === 'en' ? 'mm' : 'en';
+                updateLanguage();
+            });
+
+            function updateLanguage() {
+                const enElements = document.querySelectorAll('.lang-en');
+                const mmElements = document.querySelectorAll('.lang-mm');
+                
+                if (currentLanguage === 'en') {
+                    enElements.forEach(el => el.classList.remove('hidden'));
+                    mmElements.forEach(el => el.classList.add('hidden'));
+                } else {
+                    enElements.forEach(el => el.classList.add('hidden'));
+                    mmElements.forEach(el => el.classList.remove('hidden'));
+                }
+            }
+
+            // Quality Tier Navigation
+            document.querySelectorAll('.quality-tier-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tier = btn.dataset.tier;
+                    showProductCatalog(tier);
+                });
+            });
+
+            function showProductCatalog(tier) {
+                const tierTitles = {
+                    high: { en: 'High Quality Products', mm: 'အရည်အသွေးမြင့် ထုတ်ကုန်များ' },
+                    medium: { en: 'Medium Quality Products', mm: 'အရည်အသွေးအလယ်အလတ် ထုတ်ကုန်များ' },
+                    low: { en: 'Budget Quality Products', mm: 'စျေးသက်သာသော အရည်အသွေး ထုတ်ကုန်များ' }
+                };
+
+                catalogTitle.textContent = tierTitles[tier][currentLanguage];
+                
+                // Hide homepage, show catalog
+                document.querySelector('section.py-20').style.display = 'none';
+                productCatalog.classList.remove('hidden');
+                
+                // Populate products
+                populateProducts(tier);
+            }
+
+            function populateProducts(tier) {
+                const products = productData[tier] || [];
+                productGrid.innerHTML = '';
+
+                products.forEach(product => {
+                    const productCard = createProductCard(product);
+                    productGrid.appendChild(productCard);
+                });
+            }
+
+            function createProductCard(product) {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-smooth cursor-pointer';
+                card.addEventListener('click', () => openProductModal(product));
+
+                card.innerHTML = `
+                    <!-- ${product.description.en} -->
+                    <div class="aspect-9-16 bg-gray-200 overflow-hidden">
+                        <img src="${product.images[0]}" alt="${product.name.en}" class="w-full h-full object-cover hover:scale-105 transition-smooth" />
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg mb-2">
+                            <span class="lang-en">${product.name.en}</span>
+                            <span class="lang-mm hidden font-myanmar">${product.name.mm}</span>
+                        </h4>
+                        <p class="text-gray-600 text-sm mb-4">
+                            <span class="lang-en">${product.description.en.substring(0, 100)}...</span>
+                            <span class="lang-mm hidden font-myanmar">${product.description.mm.substring(0, 100)}...</span>
+                        </p>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 bg-cannabis-green text-white py-2 px-3 rounded-lg text-sm hover:bg-opacity-90 transition-smooth">
+                                <span class="lang-en">View Details</span>
+                                <span class="lang-mm hidden font-myanmar">အသေးစိတ်ကြည့်</span>
+                            </button>
+                            <button class="bg-light-green text-white p-2 rounded-lg hover:bg-opacity-90 transition-smooth">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                return card;
+            }
+
+            function openProductModal(product) {
+                const modalProductName = document.getElementById('modalProductName');
+                const modalMainImage = document.getElementById('modalMainImage');
+                const modalProductDescription = document.getElementById('modalProductDescription');
+
+                modalProductName.innerHTML = `
+                    <span class="lang-en">${product.name.en}</span>
+                    <span class="lang-mm hidden font-myanmar">${product.name.mm}</span>
+                `;
+
+                modalMainImage.innerHTML = `
+                    <!-- ${product.description.en} -->
+                    <img src="${product.images[0]}" alt="${product.name.en}" class="w-full h-full object-cover" />
+                `;
+
+                modalProductDescription.innerHTML = `
+                    <p class="text-gray-700 leading-relaxed">
+                        <span class="lang-en">${product.description.en}</span>
+                        <span class="lang-mm hidden font-myanmar">${product.description.mm}</span>
+                    </p>
+                `;
+
+                productModal.classList.remove('hidden');
+                updateLanguage(); // Update language for modal content
+            }
+
+            // Back to Home
+            backToHome.addEventListener('click', () => {
+                document.querySelector('section.py-20').style.display = 'block';
+                productCatalog.classList.add('hidden');
+            });
+
+            // Close Modal
+            closeModal.addEventListener('click', () => {
+                productModal.classList.add('hidden');
+            });
+
+            // Click outside modal to close
+            productModal.addEventListener('click', (e) => {
+                if (e.target === productModal) {
+                    productModal.classList.add('hidden');
+                }
+            });
+
+            // Admin Login
+            adminLoginBtn.addEventListener('click', () => {
+                // TODO: Implement proper authentication
+                currentView = 'admin';
+                clientView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+            });
+
+            // Admin Logout
+            logoutBtn.addEventListener('click', () => {
+                currentView = 'client';
+                adminView.classList.add('hidden');
+                clientView.classList.remove('hidden');
+            });
+
+            // Admin Navigation
+            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const panel = btn.dataset.panel;
+                    
+                    // Remove active class from all nav buttons
+                    document.querySelectorAll('.admin-nav-btn').forEach(b => {
+                        b.classList.remove('bg-cannabis-green', 'text-white');
+                    });
+                    
+                    // Add active class to clicked button
+                    btn.classList.add('bg-cannabis-green', 'text-white');
+                    
+                    // Hide all panels
+                    document.querySelectorAll('.admin-panel').forEach(p => {
+                        p.classList.add('hidden');
+                    });
+                    
+                    // Show selected panel
+                    document.getElementById(panel + 'Panel').classList.remove('hidden');
+                });
+            });
+
+            // Initialize first admin panel
+            document.querySelector('.admin-nav-btn').click();
+
+            // Navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const section = btn.dataset.section;
+                    // TODO: Implement section navigation
+                    console.log('Navigate to section:', section);
+                });
+            });
+
+            // Initialize language
+            updateLanguage();
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YeYint Cannabis E-commerce - Scrum Board Operation State</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2D5016',
+                        secondary: '#8BC34A',
+                        accent: '#FF6B35',
+                        success: '#4CAF50',
+                        background: '#F8F9FA',
+                        text: '#1B1B1B'
+                    },
+                    fontFamily: {
+                        'myanmar': ['Noto Sans Myanmar', 'sans-serif'],
+                        'english': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Myanmar:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js" type="module"></script>
+</head>
+<body class="bg-background text-text font-english">
+    <!-- Scrum Board Header -->
+    <div class="bg-primary text-white p-4">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-2xl font-bold mb-2">YeYint Cannabis E-commerce - Development Board</h1>
+            <div class="flex items-center space-x-4 text-sm">
+                <span class="bg-secondary/20 px-3 py-1 rounded-full">Sprint 1: Core Features</span>
+                <span class="bg-accent/20 px-3 py-1 rounded-full">Status: In Development</span>
+                <span class="bg-success/20 px-3 py-1 rounded-full">Progress: 75%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrum Board Container -->
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Board Navigation -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex space-x-4">
+                <button id="clientViewBtn" class="bg-primary text-white px-4 py-2 rounded-lg font-medium transition-colors hover:bg-primary/90">Client Storefront</button>
+                <button id="adminViewBtn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors hover:bg-gray-300">Admin Panel</button>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="text-sm text-gray-600">Language:</span>
+                <button id="langToggle" class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium">EN / မြန်မာ</button>
+            </div>
+        </div>
+
+        <!-- Scrum Columns -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Backlog Column -->
+            <div class="bg-white rounded-xl shadow-lg p-4">
+                <h3 class="font-semibold text-lg mb-4 text-gray-800 border-b pb-2">📋 Backlog</h3>
+                <div class="space-y-3">
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-3 rounded">
+                        <h4 class="font-medium text-sm">Advanced Search</h4>
+                        <p class="text-xs text-gray-600 mt-1">Filter by strain, THC/CBD levels</p>
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mt-2">Enhancement</span>
+                    </div>
+                    <div class="bg-purple-50 border-l-4 border-purple-400 p-3 rounded">
+                        <h4 class="font-medium text-sm">Payment Gateway</h4>
+                        <p class="text-xs text-gray-600 mt-1">Integrate secure payment options</p>
+                        <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded mt-2">Feature</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- In Progress Column -->
+            <div class="bg-white rounded-xl shadow-lg p-4">
+                <h3 class="font-semibold text-lg mb-4 text-gray-800 border-b pb-2">🔄 In Progress</h3>
+                <div class="space-y-3">
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
+                        <h4 class="font-medium text-sm">Bilingual Support</h4>
+                        <p class="text-xs text-gray-600 mt-1">Myanmar/English translation system</p>
+                        <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded mt-2">Core Feature</span>
+                        <div class="mt-2 bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-400 h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="bg-orange-50 border-l-4 border-orange-400 p-3 rounded">
+                        <h4 class="font-medium text-sm">Admin Dashboard</h4>
+                        <p class="text-xs text-gray-600 mt-1">Product & content management</p>
+                        <span class="inline-block bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded mt-2">Core Feature</span>
+                        <div class="mt-2 bg-gray-200 rounded-full h-2">
+                            <div class="bg-orange-400 h-2 rounded-full" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testing Column -->
+            <div class="bg-white rounded-xl shadow-lg p-4">
+                <h3 class="font-semibold text-lg mb-4 text-gray-800 border-b pb-2">🧪 Testing</h3>
+                <div class="space-y-3">
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-3 rounded">
+                        <h4 class="font-medium text-sm">Product Catalog</h4>
+                        <p class="text-xs text-gray-600 mt-1">Quality tier categorization</p>
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mt-2">Core Feature</span>
+                    </div>
+                    <div class="bg-indigo-50 border-l-4 border-indigo-400 p-3 rounded">
+                        <h4 class="font-medium text-sm">Contact Integration</h4>
+                        <p class="text-xs text-gray-600 mt-1">WhatsApp, Telegram, Messenger</p>
+                        <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded mt-2">Integration</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Done Column -->
+            <div class="bg-white rounded-xl shadow-lg p-4">
+                <h3 class="font-semibold text-lg mb-4 text-gray-800 border-b pb-2">✅ Done</h3>
+                <div class="space-y-3">
+                    <div class="bg-green-50 border-l-4 border-green-400 p-3 rounded">
+                        <h4 name="font-medium text-sm">Responsive Layout</h4>
+                        <p class="text-xs text-gray-600 mt-1">Mobile-first design system</p>
+                        <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded mt-2">Foundation</span>
+                    </div>
+                    <div class="bg-emerald-50 border-l-4 border-emerald-400 p-3 rounded">
+                        <h4 class="font-medium text-sm">Supabase Setup</h4>
+                        <p class="text-xs text-gray-600 mt-1">Database configuration</p>
+                        <span class="inline-block bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded mt-2">Infrastructure</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interface Mockups -->
+        <div id="interfaceContainer" class="transition-all duration-500">
+            <!-- Client Storefront View -->
+            <div id="clientView" class="space-y-8">
+                <!-- Client Header -->
+                <header class="bg-white shadow-lg rounded-xl overflow-hidden">
+                    <div class="bg-primary text-white p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h1 class="text-xl font-bold">YeYint Cannabis</h1>
+                                    <p class="text-sm opacity-90">Premium Cannabis Products</p>
+                                </div>
+                            </div>
+                            <nav class="hidden md:flex space-x-6 text-sm">
+                                <a href="#" class="hover:text-secondary transition-colors">Products</a>
+                                <a href="#" class="hover:text-secondary transition-colors">About</a>
+                                <a href="#" class="hover:text-secondary transition-colors">How to Order</a>
+                                <a href="#" class="hover:text-secondary transition-colors">FAQ</a>
+                            </nav>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Hero Section -->
+                <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <!-- Premium cannabis store interior with modern displays and green lighting -->
+                    <div class="h-96 bg-gradient-to-r from-primary to-secondary relative" style="background-image: url('https://images.unsplash.com/photo-1516401266446-6432a8a07d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=800'); background-size: cover; background-position: center;">
+                        <div class="absolute inset-0 bg-primary/70"></div>
+                        <div class="relative z-10 flex items-center justify-center h-full text-center">
+                            <div class="text-white max-w-2xl px-6">
+                                <h2 class="text-4xl md:text-6xl font-bold mb-4">Premium Cannabis</h2>
+                                <h3 class="text-2xl md:text-3xl font-myanmar mb-6">အရည်အသွေးမြင့် ဆေးခြောက်များ</h3>
+                                <p class="text-lg mb-8 opacity-90">Curated selection of high-quality cannabis products for discerning customers</p>
+                                <button class="bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-full font-semibold transition-colors">
+                                    Browse Products
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quality Tiers -->
+                <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6 border-2 border-accent">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-accent mb-2">High Quality</h3>
+                            <p class="text-myanmar font-myanmar text-lg mb-3">အရည်အသွေးမြင့်</p>
+                            <p class="text-gray-600 text-sm mb-4">Premium strains with exceptional potency and purity</p>
+                            <span class="bg-accent text-white px-4 py-2 rounded-full text-sm font-medium">From $80</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6 border-2 border-secondary">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-secondary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 12L11 14L15 10M21 12C21 16.97 16.97 21 12 21C7.03 21 3 16.97 3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary mb-2">Medium Quality</h3>
+                            <p class="text-myanmar font-myanmar text-lg mb-3">အရည်အသွေးအလယ်အလတ်</p>
+                            <p class="text-gray-600 text-sm mb-4">Balanced quality for everyday enjoyment</p>
+                            <span class="bg-secondary text-white px-4 py-2 rounded-full text-sm font-medium">From $50</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6 border-2 border-primary">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary mb-2">Standard Quality</h3>
+                            <p class="text-myanmar font-myanmar text-lg mb-3">အရည်အသွေးပုံမှန်</p>
+                            <p class="text-gray-600 text-sm mb-4">Affordable options without compromising quality</p>
+                            <span class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium">From $30</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Featured Products -->
+                <section class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold">Featured Products</h2>
+                        <h3 class="text-xl font-myanmar">အထူးရွေးချယ်ထားသော ပစ္စည်းများ</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Product Card 1 -->
+                        <div class="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow" data-mock="true">
+                            <!-- High-quality cannabis flower with rich green color and orange hairs -->
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" alt="Premium cannabis flower" class="w-full h-48 object-cover" data-mock-image="true">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-semibold text-lg">Purple Haze</h3>
+                                    <span class="bg-accent text-white text-xs px-2 py-1 rounded-full">High</span>
+                                </div>
+                                <p class="text-myanmar font-myanmar text-sm text-gray-600 mb-2">မြန်မာ့ရိုးရာ အမေရိကန်စတိုင်</p>
+                                <p class="text-gray-600 text-sm mb-3">Classic sativa strain with euphoric effects</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xl font-bold text-primary">$85</span>
+                                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-primary/90 transition-colors">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 2 -->
+                        <div class="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow" data-mock="true">
+                            <!-- Cannabis edibles with colorful gummy bears and packaging -->
+                            <img src="https://pixabay.com/get/g45b36e21e3abdc46998b441794780f28406df6baf1d9746e831f75192770f5276fba9cb94a1e86ee3eae9a6bb32b087058c2ea6f89536973640028cb958b52c6_1280.jpg" alt="Cannabis edibles collection" class="w-full h-48 object-cover" data-mock-image="true">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-semibold text-lg">Green Goddess</h3>
+                                    <span class="bg-secondary text-white text-xs px-2 py-1 rounded-full">Medium</span>
+                                </div>
+                                <p class="text-myanmar font-myanmar text-sm text-gray-600 mb-2">အလယ်အလတ် ကောင်းမွန်သော</p>
+                                <p class="text-gray-600 text-sm mb-3">Balanced hybrid with relaxing properties</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xl font-bold text-primary">$60</span>
+                                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-primary/90 transition-colors">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Card 3 -->
+                        <div class="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow" data-mock="true">
+                            <!-- Cannabis concentrate in glass jar with golden color -->
+                            <img src="https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" alt="Cannabis concentrate in glass jar" class="w-full h-48 object-cover" data-mock-image="true">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-semibold text-lg">Blue Dream</h3>
+                                    <span class="bg-primary text-white text-xs px-2 py-1 rounded-full">Standard</span>
+                                </div>
+                                <p class="text-myanmar font-myanmar text-sm text-gray-600 mb-2">စံထားအရည်အသွေး</p>
+                                <p class="text-gray-600 text-sm mb-3">Popular strain with gentle cerebral effects</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xl font-bold text-primary">$35</span>
+                                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-primary/90 transition-colors">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-center">How to Order</h2>
+                    <p class="text-myanmar font-myanmar text-xl mb-6 text-center">မှာယူနည်း</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center p-4 bg-gray-50 rounded-xl">
+                            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">WhatsApp</h3>
+                            <p class="text-sm text-gray-600 mb-3">Quick messaging and orders</p>
+                            <button class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600 transition-colors">
+                                Message Us
+                            </button>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-xl">
+                            <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">Telegram</h3>
+                            <p class="text-sm text-gray-600 mb-3">Secure communications</p>
+                            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                                Join Channel
+                            </button>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-xl">
+                            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.867-2.03-.967-.272-.099-.47-.149-.669.149-.198.297-.767.966-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">Messenger</h3>
+                            <p class="text-sm text-gray-600 mb-3">Facebook integration</p>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors">
+                                Chat Now
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Admin Panel View -->
+            <div id="adminView" class="hidden space-y-8">
+                <!-- Admin Header -->
+                <header class="bg-white shadow-lg rounded-xl p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+                            <p class="text-gray-600">Manage your cannabis e-commerce platform</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm text-gray-500">Last login: Today, 2:30 PM</span>
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                <span class="text-white font-medium">A</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Dashboard Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Total Products</p>
+                                <p class="text-2xl font-bold text-gray-800" data-bind="totalProducts">156</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Orders Today</p>
+                                <p class="text-2xl font-bold text-gray-800" data-bind="ordersToday">23</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Revenue</p>
+                                <p class="text-2xl font-bold text-gray-800" data-bind="revenue">$12,450</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Active Users</p>
+                                <p class="text-2xl font-bold text-gray-800" data-bind="activeUsers">1,234</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-bold mb-4">Quick Actions</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <button class="flex flex-col items-center p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary hover:bg-primary/5 transition-colors" data-event="click:addProduct">
+                            <svg class="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                            <span class="text-sm font-medium">Add Product</span>
+                        </button>
+                        <button class="flex flex-col items-center p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-secondary hover:bg-secondary/5 transition-colors" data-event="click:uploadImage">
+                            <svg class="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <span class="text-sm font-medium">Upload Media</span>
+                        </button>
+                        <button class="flex flex-col items-center p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-accent hover:bg-accent/5 transition-colors" data-event="click:manageOrders">
+                            <svg class="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            <span class="text-sm font-medium">Manage Orders</span>
+                        </button>
+                        <button class="flex flex-col items-center p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-success hover:bg-success/5 transition-colors" data-event="click:updateContent">
+                            <svg class="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                            <span class="text-sm font-medium">Update Content</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Management Table -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 border-b">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-bold">Product Management</h2>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors" data-event="click:addNewProduct">
+                                Add New Product
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quality</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" data-mock="true">
+                                <!-- @MAP: products.map(product => ( -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <!-- Cannabis product showcase image for admin panel -->
+                                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100" alt="Product thumbnail" class="w-10 h-10 rounded-lg object-cover" data-mock-image="true">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900" data-bind="product.name">Purple Haze</div>
+                                                <div class="text-sm text-gray-500" data-bind="product.strain">Sativa Dominant</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-accent text-white" data-bind="product.quality">High</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" data-bind="product.price">$85.00</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" data-bind="product.stock">24</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-success text-white" data-bind="product.status">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                        <button class="text-primary hover:text-primary/80" data-event="click:editProduct">Edit</button>
+                                        <button class="text-red-600 hover:text-red-800" data-event="click:deleteProduct">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <!-- Cannabis edibles for admin management display -->
+                                            <img src="https://pixabay.com/get/g5a67c1e43a9e05f190d8ea71fc59eb2090006cd57fccc42a6241a4893bb9d94becbc2cd18df755708ab2291648bf5bc7f2953888a6573ada0b1d955751acecfb_1280.jpg" alt="Product thumbnail" class="w-10 h-10 rounded-lg object-cover" data-mock-image="true">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900" data-bind="product.name">Green Goddess</div>
+                                                <div class="text-sm text-gray-500" data-bind="product.strain">Hybrid</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-secondary text-white" data-bind="product.quality">Medium</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" data-bind="product.price">$60.00</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" data-bind="product.stock">18</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-success text-white" data-bind="product.status">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                        <button class="text-primary hover:text-primary/80" data-event="click:editProduct">Edit</button>
+                                        <button class="text-red-600 hover:text-red-800" data-event="click:deleteProduct">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <!-- Premium cannabis concentrate for admin inventory -->
+                                            <img src="https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100" alt="Product thumbnail" class="w-10 h-10 rounded-lg object-cover" data-mock-image="true">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900" data-bind="product.name">Blue Dream</div>
+                                                <div class="text-sm text-gray-500" data-bind="product.strain">Indica Hybrid</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-primary text-white" data-bind="product.quality">Standard</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" data-bind="product.price">$35.00</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" data-bind="product.stock">12</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-success text-white" data-bind="product.status">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                        <button class="text-primary hover:text-primary/80" data-event="click:editProduct">Edit</button>
+                                        <button class="text-red-600 hover:text-red-800" data-event="click:deleteProduct">Delete</button>
+                                    </td>
+                                </tr>
+                                <!-- @END_MAP )) -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Content Management -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-bold mb-4">Content Management</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div class="border rounded-lg p-4">
+                                <h3 class="font-semibold mb-2">Bilingual Content</h3>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">English Content</span>
+                                        <button class="text-primary hover:text-primary/80 text-sm" data-event="click:editEnglishContent">Edit</button>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">Myanmar Content</span>
+                                        <button class="text-primary hover:text-primary/80 text-sm" data-event="click:editMyanmarContent">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg p-4">
+                                <h3 class="font-semibold mb-2">Contact Information</h3>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">WhatsApp Number</span>
+                                        <button class="text-primary hover:text-primary/80 text-sm" data-event="click:editWhatsApp">Edit</button>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">Telegram Channel</span>
+                                        <button class="text-primary hover:text-primary/80 text-sm" data-event="click:editTelegram">Edit</button>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">Messenger Link</span>
+                                        <button class="text-primary hover:text-primary/80 text-sm" data-event="click:editMessenger">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="border rounded-lg p-4">
+                                <h3 class="font-semibold mb-2">FAQ Management</h3>
+                                <div class="space-y-2">
+                                    <button class="w-full text-left bg-gray-50 p-3 rounded hover:bg-gray-100 text-sm" data-event="click:addFAQ">
+                                        + Add New FAQ
+                                    </button>
+                                    <button class="w-full text-left bg-gray-50 p-3 rounded hover:bg-gray-100 text-sm" data-event="click:manageFAQ">
+                                        Manage Existing FAQs
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg p-4">
+                                <h3 class="font-semibold mb-2">Media Gallery</h3>
+                                <div class="space-y-2">
+                                    <button class="w-full text-left bg-gray-50 p-3 rounded hover:bg-gray-100 text-sm" data-event="click:uploadVideo">
+                                        Upload Product Videos
+                                    </button>
+                                    <button class="w-full text-left bg-gray-50 p-3 rounded hover:bg-gray-100 text-sm" data-event="click:manageImages">
+                                        Manage Product Images
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // TODO: Implement business logic, API calls, or state management
+            
+            // Simple view switching functionality for demonstration
+            const clientViewBtn = document.getElementById('clientViewBtn');
+            const adminViewBtn = document.getElementById('adminViewBtn');
+            const clientView = document.getElementById('clientView');
+            const adminView = document.getElementById('adminView');
+            const langToggle = document.getElementById('langToggle');
+
+            let isEnglish = true;
+
+            clientViewBtn.addEventListener('click', () => {
+                clientView.classList.remove('hidden');
+                adminView.classList.add('hidden');
+                clientViewBtn.classList.add('bg-primary', 'text-white');
+                clientViewBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                adminViewBtn.classList.remove('bg-primary', 'text-white');
+                adminViewBtn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+
+            adminViewBtn.addEventListener('click', () => {
+                adminView.classList.remove('hidden');
+                clientView.classList.add('hidden');
+                adminViewBtn.classList.add('bg-primary', 'text-white');
+                adminViewBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                clientViewBtn.classList.remove('bg-primary', 'text-white');
+                clientViewBtn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+
+            langToggle.addEventListener('click', () => {
+                isEnglish = !isEnglish;
+                // TODO: Implement actual language switching logic
+                console.log('Language switched to:', isEnglish ? 'English' : 'Myanmar');
+            });
+
+            // Add click handlers for interactive elements (for demonstration)
+            document.querySelectorAll('[data-event]').forEach(element => {
+                const eventType = element.getAttribute('data-event').split(':')[0];
+                const handlerName = element.getAttribute('data-event').split(':')[1];
+                
+                element.addEventListener(eventType, () => {
+                    // TODO: Implement actual event handlers
+                    console.log('Event triggered:', handlerName);
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
