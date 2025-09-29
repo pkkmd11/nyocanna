@@ -115,7 +115,7 @@ export function ObjectUploader({
 
         // Get public URL
         const { data: urlData } = supabase.storage
-          .from('product-images')
+          .from(bucketName)
           .getPublicUrl(data.path);
 
         uploadedUrls.push(urlData.publicUrl);
