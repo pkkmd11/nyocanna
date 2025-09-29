@@ -23,7 +23,7 @@ type ContactFormData = z.infer<typeof contactFormSchema>;
 interface ContactManagementProps {
   contactInfo: ContactInfo[];
   isLoading: boolean;
-  onUpdate: (platform: string, data: Partial<InsertContactInfo>) => void;
+  onUpdate: (platform: string, data: Partial<InsertContactInfo>) => Promise<void>;
   isUpdating?: boolean;
 }
 
@@ -101,7 +101,7 @@ export function ContactManagement({ contactInfo, isLoading, onUpdate, isUpdating
     form.reset();
   };
 
-  const handleSubmit = (formData: ContactFormData) => {
+  const handleSubmit = async (formData: ContactFormData) => {
     if (!editingPlatform) return;
 
     try {
@@ -111,9 +111,14 @@ export function ContactManagement({ contactInfo, isLoading, onUpdate, isUpdating
         isActive: formData.isActive,
       };
 
-      onUpdate(editingPlatform, contactData);
+      await onUpdate(editingPlatform, contactData);
       setEditingPlatform(null);
       form.reset();
+      
+      toast({
+        title: "Contact Updated",
+        description: `${PLATFORMS.find(p => p.id === editingPlatform)?.name} contact information has been updated successfully`,
+      });
     } catch (error) {
       console.error('Error updating contact:', error);
       toast({

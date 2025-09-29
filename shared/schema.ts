@@ -32,7 +32,7 @@ export const siteContent = pgTable("site_content", {
 
 export const contactInfo = pgTable("contact_info", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  platform: text("platform").notNull(), // 'telegram', 'whatsapp', 'messenger'
+  platform: text("platform").notNull().unique(), // 'telegram', 'whatsapp', 'messenger'
   url: text("url").notNull(),
   qrCode: text("qr_code"), // base64 or URL to QR code image
   isActive: boolean("is_active").default(true),

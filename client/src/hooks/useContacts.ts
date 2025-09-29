@@ -18,11 +18,18 @@ export function useUpdateContactInfo() {
   
   return useMutation({
     mutationFn: async ({ platform, contactInfo }: { platform: string; contactInfo: Partial<InsertContactInfo> }) => {
+      console.log('Updating contact info via mutation:', { platform, contactInfo });
       const response = await apiRequest('PUT', `/api/contacts/${platform}`, contactInfo);
-      return response.json();
+      const result = await response.json();
+      console.log('Mutation response result:', result);
+      return result;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('Mutation succeeded, invalidating queries. Response data:', data);
       queryClient.invalidateQueries({ queryKey: ['/api/contacts'] });
+    },
+    onError: (error) => {
+      console.error('Mutation failed:', error);
     }
   });
 }

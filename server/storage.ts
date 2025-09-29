@@ -491,20 +491,14 @@ export class DbStorage implements IStorage {
   }
 
   async updateContactInfo(platform: string, info: Partial<ContactInfo>): Promise<ContactInfo> {
-    const existing = await db.select().from(contactInfo).where(eq(contactInfo.platform, platform)).limit(1);
+    // First, delete any existing records for this platform to prevent duplicates
+    await db.delete(contactInfo).where(eq(contactInfo.platform, platform));
     
-    if (existing[0]) {
-      const result = await db.update(contactInfo)
-        .set({ ...info, updatedAt: new Date() })
-        .where(eq(contactInfo.id, existing[0].id))
-        .returning();
-      return result[0];
-    } else {
-      const result = await db.insert(contactInfo)
-        .values({ platform, url: '', ...info })
-        .returning();
-      return result[0];
-    }
+    // Then insert the new record
+    const result = await db.insert(contactInfo)
+      .values({ platform, url: '', ...info })
+      .returning();
+    return result[0];
   }
 
   // FAQ methods

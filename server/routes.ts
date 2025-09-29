@@ -111,7 +111,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { platform } = req.params;
       const validatedData = insertContactInfoSchema.partial().parse(req.body);
+      console.log(`Updating contact for platform ${platform} with data:`, validatedData);
       const contactInfo = await storage.updateContactInfo(platform, validatedData);
+      console.log(`Updated contact info:`, contactInfo);
       res.json(contactInfo);
     } catch (error) {
       console.error('Error updating contact info:', error);
