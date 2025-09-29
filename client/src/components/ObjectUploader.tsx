@@ -5,6 +5,96 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 import { Upload } from "lucide-react";
 
+// Image optimization utilities
+const MAX_DIMENSION = 2048; // 2048x2048 for optimal e-commerce display
+const COMPRESSION_QUALITY = 0.85; // 85% quality for good balance
+const TARGET_FILE_SIZE = 300 * 1024; // 300KB target
+
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+function compressImage(file: File): Promise<{ blob: Blob; originalSize: number; compressedSize: number; dimensions: string }> {
+  return new Promise((resolve, reject) => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    
+    img.onload = () => {
+      // Calculate optimal dimensions (square aspect ratio)
+      let { width, height } = img;
+      const originalSize = file.size;
+      
+      // Resize to fit within MAX_DIMENSION while maintaining aspect ratio
+      if (width > height) {
+        if (width > MAX_DIMENSION) {
+          height = (height * MAX_DIMENSION) / width;
+          width = MAX_DIMENSION;
+        }
+      } else {
+        if (height > MAX_DIMENSION) {
+          width = (width * MAX_DIMENSION) / height;
+          height = MAX_DIMENSION;
+        }
+      }
+      
+      // For e-commerce, we want square images - crop to square
+      const size = Math.min(width, height);
+      canvas.width = size;
+      canvas.height = size;
+      
+      // Draw image centered and cropped to square
+      const offsetX = (img.width - size) / 2;
+      const offsetY = (img.height - size) / 2;
+      
+      ctx?.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
+      
+      // Try different quality levels to hit target file size
+      let quality = COMPRESSION_QUALITY;
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error('Failed to compress image'));
+          return;
+        }
+        
+        const compressedSize = blob.size;
+        const dimensions = `${size}x${size}px`;
+        
+        // If still too large, try lower quality
+        if (compressedSize > TARGET_FILE_SIZE && quality > 0.5) {
+          quality = Math.max(0.5, quality - 0.1);
+          canvas.toBlob((newBlob) => {
+            if (!newBlob) {
+              reject(new Error('Failed to compress image'));
+              return;
+            }
+            resolve({
+              blob: newBlob,
+              originalSize,
+              compressedSize: newBlob.size,
+              dimensions
+            });
+          }, 'image/jpeg', quality);
+        } else {
+          resolve({
+            blob,
+            originalSize,
+            compressedSize,
+            dimensions
+          });
+        }
+      }, 'image/jpeg', quality);
+    };
+    
+    img.onerror = () => reject(new Error('Failed to load image'));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
 interface ObjectUploaderProps {
   maxNumberOfFiles?: number;
   maxFileSize?: number;
@@ -55,7 +145,6 @@ export function ObjectUploader({
     const files = event.target.files;
     if (!files || files.length === 0) return;
 
-    alert('Upload button clicked! Starting Supabase storage upload...');
     setIsUploading(true);
 
     try {
@@ -82,14 +171,48 @@ export function ObjectUploader({
           continue;
         }
 
-        // Upload to Supabase storage (try different bucket names)
-        const fileName = `products/${Date.now()}-${file.name}`;
+        let fileToUpload: File | Blob = file;
+        let uploadFileName = file.name;
+        let optimizationMessage = '';
+
+        // Optimize images automatically
+        if (file.type.startsWith('image/')) {
+          try {
+            toast({
+              title: "Optimizing image...",
+              description: `Processing ${file.name} for best web performance`,
+            });
+
+            const { blob, originalSize, compressedSize, dimensions } = await compressImage(file);
+            fileToUpload = blob;
+            uploadFileName = file.name.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '.jpg'); // Convert to JPEG
+            
+            const savingsPercent = Math.round(((originalSize - compressedSize) / originalSize) * 100);
+            optimizationMessage = `Optimized: ${formatFileSize(originalSize)} → ${formatFileSize(compressedSize)} (${savingsPercent}% smaller, ${dimensions})`;
+            
+            toast({
+              title: "Image optimized!",
+              description: optimizationMessage,
+              duration: 3000,
+            });
+          } catch (compressionError) {
+            console.error('Image compression failed:', compressionError);
+            toast({
+              title: "Optimization failed",
+              description: `Using original image for ${file.name}`,
+              variant: "destructive",
+            });
+            // Continue with original file if compression fails
+          }
+        }
+
+        // Upload to Supabase storage
+        const fileName = `products/${Date.now()}-${uploadFileName}`;
         const bucketName = file.type.startsWith('video/') ? 'product-videos' : 'product-images';
         
-        // Try uploading with better error handling
         const { data, error } = await supabase.storage
           .from(bucketName)
-          .upload(fileName, file, {
+          .upload(fileName, fileToUpload, {
             cacheControl: '3600',
             upsert: false
           });
@@ -123,8 +246,8 @@ export function ObjectUploader({
 
       if (uploadedUrls.length > 0) {
         toast({
-          title: "Upload successful",
-          description: `Successfully uploaded ${uploadedUrls.length} image(s) to Supabase`,
+          title: "Upload successful!",
+          description: `Uploaded ${uploadedUrls.length} optimized image(s) to storage`,
         });
         onComplete?.(uploadedUrls);
       }
