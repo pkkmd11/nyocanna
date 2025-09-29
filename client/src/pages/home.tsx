@@ -57,7 +57,6 @@ export default function HomePage() {
         onLanguageChange={setLanguage}
         onAdminLogin={handleAdminLogin}
       />
-
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary to-secondary text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -72,7 +71,6 @@ export default function HomePage() {
           </p>
         </div>
       </section>
-
       {/* Product Catalog */}
       <section id="products" className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -130,7 +128,6 @@ export default function HomePage() {
           )}
         </div>
       </section>
-
       {/* About Section */}
       <section id="about" className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -143,15 +140,10 @@ export default function HomePage() {
               through direct seller communication. We ensure authenticity, quality, and customer satisfaction 
               in every transaction.
             </p>
-            <p className="text-muted-foreground font-myanmar">
-              ကျွန်ုပ်တို့သည် မြန်မာနိုင်ငံ၏ ထိပ်တန်း ကန်နာဗစ် ပံ့ပိုးပေးသူများဖြစ်ပြီး၊ 
-              တိုက်ရိုက်ရောင်းချသူများနှင့် ဆက်သွယ်မှုမှတစ်ဆင့် အရည်အသွေးမြင့်ဆုံး ထုတ်ကုန်များကို 
-              ပေးအပ်ရန် ကတိပြုထားပါသည်။
-            </p>
+            <p className="text-muted-foreground font-myanmar">ပထမဆုံး အွန်လိုင်း ကန်နဗစ်</p>
           </div>
         </div>
       </section>
-
       {/* How to Order Section */}
       <section id="how-to-order" className="py-16 bg-cannabis-bg">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -209,7 +201,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* FAQ Section */}
       <section id="faq" className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -240,7 +231,6 @@ export default function HomePage() {
           </Accordion>
         </div>
       </section>
-
       {/* Product Detail Modal */}
       <ProductDetailModal
         product={selectedProduct || null}
@@ -248,7 +238,6 @@ export default function HomePage() {
         isOpen={!!selectedProductId}
         onClose={() => setSelectedProductId(null)}
       />
-
       {/* Admin Login Modal */}
       <Dialog open={showAdminLogin} onOpenChange={setShowAdminLogin}>
         <DialogContent className="max-w-md">
