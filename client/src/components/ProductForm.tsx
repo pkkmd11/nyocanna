@@ -171,7 +171,7 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                   <FormItem>
                     <FormLabel>Product Name (English)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter English name" {...field} />
+                      <Input placeholder="Enter English name" {...field} data-testid="input-name-en" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -185,7 +185,7 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                   <FormItem>
                     <FormLabel className="font-myanmar">Product Name (မြန်မာ)</FormLabel>
                     <FormControl>
-                      <Input placeholder="မြန်မာအမည်ထည့်ပါ" {...field} className="font-myanmar" />
+                      <Input placeholder="မြန်မာအမည်ထည့်ပါ" {...field} className="font-myanmar" data-testid="input-name-my" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -202,7 +202,7 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                   <FormItem>
                     <FormLabel>Description (English)</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Enter English description" {...field} />
+                      <Textarea placeholder="Enter English description" {...field} data-testid="textarea-description-en" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -216,7 +216,7 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                   <FormItem>
                     <FormLabel className="font-myanmar">Description (မြန်မာ)</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="မြန်မာဖော်ပြချက်ထည့်ပါ" {...field} className="font-myanmar" />
+                      <Textarea placeholder="မြန်မာဖော်ပြချက်ထည့်ပါ" {...field} className="font-myanmar" data-testid="textarea-description-my" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -370,6 +370,22 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
               <Button 
                 type="submit"
                 disabled={isSubmitting}
+                onClick={(e) => {
+                  console.log('Create Product button clicked!');
+                  console.log('Form errors:', form.formState.errors);
+                  console.log('Form values:', form.getValues());
+                  console.log('Form is valid:', form.formState.isValid);
+                  
+                  if (!form.formState.isValid) {
+                    console.log('Form validation failed, preventing submission');
+                    toast({
+                      title: "Form Validation Error",
+                      description: "Please fill in all required fields (English name, Myanmar name, English description, Myanmar description)",
+                      variant: "destructive",
+                    });
+                  }
+                }}
+                data-testid="button-create-product"
               >
                 {isSubmitting ? 'Saving...' : (initialData ? 'Update Product' : 'Create Product')}
               </Button>
