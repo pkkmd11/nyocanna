@@ -80,19 +80,35 @@ export default function AdminPage() {
   };
 
   const handleDeleteAllProducts = async () => {
-    if (confirm('⚠️ WARNING: This will delete ALL products permanently. Are you absolutely sure?')) {
-      if (confirm('This action cannot be undone. Type YES in the next dialog to confirm.') && 
-          prompt('Type "DELETE ALL" to confirm:') === 'DELETE ALL') {
+    // Simplified confirmation process
+    const userConfirmation = prompt(
+      `⚠️ WARNING: This will delete ALL ${products.length} products permanently!\n\nThis action cannot be undone.\n\nType "DELETE ALL" to confirm:`
+    );
+    
+    if (userConfirmation === 'DELETE ALL') {
+      let successCount = 0;
+      let failCount = 0;
+      const failedProducts = [];
+
+      // Delete each product individually with better error handling
+      for (const product of products) {
         try {
-          // Delete each product individually since we don't have a bulk delete endpoint
-          for (const product of products) {
-            await deleteProduct.mutateAsync(product.id);
-          }
-          alert('All products have been deleted successfully.');
+          await deleteProduct.mutateAsync(product.id);
+          successCount++;
         } catch (error) {
-          console.error('Error deleting products:', error);
-          alert('Error occurred while deleting products. Some may not have been deleted.');
+          console.error(`Error deleting product ${product.id}:`, error);
+          failCount++;
+          failedProducts.push((product.name as any)?.en || product.id);
         }
+      }
+
+      // Provide detailed feedback to user
+      if (failCount === 0) {
+        alert(`✅ Success! All ${successCount} products have been deleted.`);
+      } else if (successCount === 0) {
+        alert(`❌ Failed to delete any products. Please try again or delete products individually.`);
+      } else {
+        alert(`⚠️ Partial success: ${successCount} products deleted, ${failCount} failed.\n\nFailed products: ${failedProducts.join(', ')}`);
       }
     }
   };
