@@ -136,7 +136,7 @@ export default function HomePage() {
           </h2>
           <div className="prose prose-lg mx-auto">
             <p className="text-muted-foreground mb-6">
-              YeYint is Myanmar's premier cannabis provider, committed to delivering the highest quality products 
+              Nyo is Myanmar's premier cannabis provider, committed to delivering the highest quality products 
               through direct seller communication. We ensure authenticity, quality, and customer satisfaction 
               in every transaction.
             </p>

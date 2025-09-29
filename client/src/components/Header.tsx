@@ -22,7 +22,7 @@ export function Header({ currentLanguage, onLanguageChange, onAdminLogin }: Head
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-primary">YeYint</h1>
+            <h1 className="text-2xl font-bold text-primary">Nyo</h1>
             <span className="ml-2 text-sm text-muted-foreground">Premium Cannabis</span>
           </div>
           
