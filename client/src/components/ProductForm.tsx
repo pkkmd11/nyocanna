@@ -24,6 +24,7 @@ const productFormSchema = z.object({
   specificationsEn: z.string().optional(),
   specificationsMy: z.string().optional(),
   isActive: z.boolean().optional(),
+  existingImages: z.array(z.string()).optional(),
 });
 
 type ProductFormData = z.infer<typeof productFormSchema>;
@@ -37,7 +38,7 @@ interface ProductFormProps {
 
 export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: ProductFormProps) {
   const { toast } = useToast();
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<string[]>(initialData?.existingImages || []);
   
   const handleSupabaseUploadComplete = async (uploadedUrls: string[]) => {
     try {
@@ -69,6 +70,7 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
       specificationsEn: '',
       specificationsMy: '',
       isActive: true,
+      existingImages: [],
       ...initialData,
     },
   });
@@ -286,29 +288,37 @@ export function ProductForm({ initialData, onSubmit, onCancel, isSubmitting }: P
                   </div>
                 </div>
                 
-                {/* Uploaded Images Preview */}
+                {/* Images Preview */}
                 {uploadedImages.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-sm font-medium">Uploaded Images:</p>
+                    <p className="text-sm font-medium">Product Images {initialData?.existingImages && initialData.existingImages.length > 0 ? `(${uploadedImages.length} total)` : `(${uploadedImages.length} uploaded)`}:</p>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                      {uploadedImages.map((image, index) => (
-                        <div key={index} className="relative group">
-                          <img 
-                            src={image} 
-                            alt={`Upload ${index + 1}`}
-                            className="w-full h-24 object-cover rounded-lg border"
-                          />
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            size="sm"
-                            className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => removeUploadedImage(index)}
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      ))}
+                      {uploadedImages.map((image, index) => {
+                        const isExistingImage = initialData?.existingImages?.includes(image);
+                        return (
+                          <div key={index} className="relative group">
+                            <img 
+                              src={image} 
+                              alt={`${isExistingImage ? 'Existing' : 'Uploaded'} image ${index + 1}`}
+                              className="w-full h-24 object-cover rounded-lg border"
+                            />
+                            {isExistingImage && (
+                              <div className="absolute top-1 left-1 bg-blue-500 text-white text-xs px-1 py-0.5 rounded text-[10px]">
+                                Existing
+                              </div>
+                            )}
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={() => removeUploadedImage(index)}
+                            >
+                              <X className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}

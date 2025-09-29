@@ -232,8 +232,7 @@ export default function AdminPage() {
             descriptionEn: (editingProduct.description as any)?.en || '',
             descriptionMy: (editingProduct.description as any)?.my || '',
             quality: editingProduct.quality as "high" | "medium" | "low",
-            // imageUrls removed - using Supabase uploads only
-            // videoUrls removed - using Supabase uploads only
+            existingImages: editingProduct.images || [],
             specificationsEn: ((editingProduct.specifications as any)?.en || []).join('\n'),
             specificationsMy: ((editingProduct.specifications as any)?.my || []).join('\n'),
             isActive: editingProduct.isActive ?? true,
