@@ -4,7 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Product } from '@shared/schema';
-import { Language, QUALITY_TIERS, CONTACT_PLATFORMS } from '@/types';
+import { Language, QUALITY_TIERS } from '@/types';
+import { useContactInfo } from '@/hooks/useContacts';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -15,6 +16,7 @@ interface ProductDetailModalProps {
 
 export function ProductDetailModal({ product, language, isOpen, onClose }: ProductDetailModalProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { data: contactInfo = [] } = useContactInfo();
 
   if (!product) return null;
 
@@ -35,23 +37,25 @@ export function ProductDetailModal({ product, language, isOpen, onClose }: Produ
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  const generateContactMessage = (platform: string) => {
+  const generateContactMessage = () => {
     const productName = (product.name as any)?.en || 'Product';
     return encodeURIComponent(`I'm interested in ${productName}`);
   };
 
-  const getContactUrl = (platform: string) => {
-    const message = generateContactMessage(platform);
-    switch (platform) {
-      case 'telegram':
-        return `https://t.me/yeyint_cannabis?text=${message}`;
-      case 'whatsapp':
-        return `https://wa.me/959123456789?text=${message}`;
-      case 'messenger':
-        return `https://m.me/yeyint.cannabis`;
-      default:
-        return '#';
+  const getContactUrl = (contact: any) => {
+    if (!contact.url) return '#';
+    
+    const message = generateContactMessage();
+    const baseUrl = contact.url;
+    
+    // Add message parameter for platforms that support it
+    if (contact.platform === 'telegram' && baseUrl.includes('t.me')) {
+      return `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}text=${message}`;
+    } else if (contact.platform === 'whatsapp' && baseUrl.includes('wa.me')) {
+      return `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}text=${message}`;
     }
+    
+    return baseUrl;
   };
 
   return (
@@ -151,23 +155,39 @@ export function ProductDetailModal({ product, language, isOpen, onClose }: Produ
             <div className="space-y-3">
               <h4 className="font-medium">Contact to Order</h4>
               <div className="grid grid-cols-1 gap-2">
-                {CONTACT_PLATFORMS.map((platform) => (
-                  <Button
-                    key={platform.id}
-                    asChild
-                    className={`${platform.color} hover:opacity-90 text-white`}
-                  >
-                    <a
-                      href={getContactUrl(platform.id)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center space-x-2"
+                {contactInfo.filter(contact => contact.isActive && contact.url).map((contact) => {
+                  const getPlatformConfig = () => {
+                    switch(contact.platform) {
+                      case 'telegram':
+                        return { name: 'Telegram', icon: 'fab fa-telegram-plane', color: 'bg-blue-500' };
+                      case 'whatsapp':
+                        return { name: 'WhatsApp', icon: 'fab fa-whatsapp', color: 'bg-green-500' };
+                      case 'messenger':
+                        return { name: 'Messenger', icon: 'fab fa-facebook-messenger', color: 'bg-blue-600' };
+                      default:
+                        return { name: contact.platform, icon: 'fas fa-message', color: 'bg-gray-500' };
+                    }
+                  };
+                  const platformConfig = getPlatformConfig();
+                  
+                  return (
+                    <Button
+                      key={contact.id}
+                      asChild
+                      className={`${platformConfig.color} hover:opacity-90 text-white`}
                     >
-                      <i className={platform.icon} />
-                      <span>Order via {platform.name}</span>
-                    </a>
-                  </Button>
-                ))}
+                      <a
+                        href={getContactUrl(contact)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center space-x-2"
+                      >
+                        <i className={platformConfig.icon} />
+                        <span>Order via {platformConfig.name}</span>
+                      </a>
+                    </Button>
+                  );
+                })}
               </div>
             </div>
           </div>
