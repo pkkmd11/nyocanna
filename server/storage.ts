@@ -434,8 +434,13 @@ export class DbStorage implements IStorage {
   }
 
   async deleteProduct(id: string): Promise<boolean> {
-    const result = await db.delete(products).where(eq(products.id, id));
-    return result.length > 0;
+    try {
+      await db.delete(products).where(eq(products.id, id));
+      return true;
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      return false;
+    }
   }
 
   // Site content methods
@@ -508,8 +513,13 @@ export class DbStorage implements IStorage {
   }
 
   async deleteFaqItem(id: string): Promise<boolean> {
-    const result = await db.delete(faqItems).where(eq(faqItems.id, id));
-    return result.length > 0;
+    try {
+      await db.delete(faqItems).where(eq(faqItems.id, id));
+      return true;
+    } catch (error) {
+      console.error('Error deleting FAQ item:', error);
+      return false;
+    }
   }
 }
 
