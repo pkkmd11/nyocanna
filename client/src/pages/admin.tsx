@@ -5,8 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { AdminSidebar } from '@/components/AdminSidebar';
 import { ProductForm } from '@/components/ProductForm';
+import { FaqForm } from '@/components/FaqForm';
+import { FaqTable } from '@/components/FaqTable';
+import { ContactManagement } from '@/components/ContactManagement';
 import { useProducts, useCreateProduct, useUpdateProduct, useDeleteProduct } from '@/hooks/useProducts';
-import { Product, InsertProduct } from '@shared/schema';
+import { useFaqItems, useCreateFaqItem, useUpdateFaqItem, useDeleteFaqItem } from '@/hooks/useFaq';
+import { useContactInfo, useUpdateContactInfo } from '@/hooks/useContacts';
+import { Product, InsertProduct, FaqItem, InsertFaqItem, InsertContactInfo } from '@shared/schema';
 import { QUALITY_TIERS } from '@/types';
 import { BarChart3, Leaf, Images, MessageSquare, Plus, Edit, Trash2, Eye } from 'lucide-react';
 
@@ -17,6 +22,10 @@ export default function AdminPage() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [, setLocation] = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // FAQ state
+  const [showFaqForm, setShowFaqForm] = useState(false);
+  const [editingFaq, setEditingFaq] = useState<FaqItem | null>(null);
 
   // Check authentication on mount
   useEffect(() => {
@@ -29,10 +38,21 @@ export default function AdminPage() {
     }
   }, [setLocation]);
 
+  // Product hooks
   const { data: products = [], isLoading } = useProducts();
   const createProduct = useCreateProduct();
   const updateProduct = useUpdateProduct();
   const deleteProduct = useDeleteProduct();
+
+  // FAQ hooks
+  const { data: faqItems = [], isLoading: faqLoading } = useFaqItems();
+  const createFaqItem = useCreateFaqItem();
+  const updateFaqItem = useUpdateFaqItem();
+  const deleteFaqItem = useDeleteFaqItem();
+
+  // Contact hooks
+  const { data: contactInfo = [], isLoading: contactLoading } = useContactInfo();
+  const updateContactInfo = useUpdateContactInfo();
 
   const handleLogout = () => {
     sessionStorage.removeItem('adminAuth');
@@ -110,6 +130,57 @@ export default function AdminPage() {
       } else {
         alert(`⚠️ Partial success: ${successCount} products deleted, ${failCount} failed.\n\nFailed products: ${failedProducts.join(', ')}`);
       }
+    }
+  };
+
+  // FAQ handlers
+  const handleCreateFaqItem = async (faqData: InsertFaqItem) => {
+    try {
+      await createFaqItem.mutateAsync(faqData);
+      setShowFaqForm(false);
+      console.log('FAQ item created successfully');
+    } catch (error) {
+      console.error('Error creating FAQ item:', error);
+      throw error;
+    }
+  };
+
+  const handleUpdateFaqItem = async (faqData: InsertFaqItem) => {
+    if (editingFaq) {
+      try {
+        await updateFaqItem.mutateAsync({ id: editingFaq.id, faqItem: faqData });
+        setShowFaqForm(false);
+        setEditingFaq(null);
+        console.log('FAQ item updated successfully');
+      } catch (error) {
+        console.error('Error updating FAQ item:', error);
+        throw error;
+      }
+    }
+  };
+
+  const handleDeleteFaqItem = (id: string) => {
+    deleteFaqItem.mutate(id);
+  };
+
+  const handleEditFaqItem = (faqItem: FaqItem) => {
+    setEditingFaq(faqItem);
+    setShowFaqForm(true);
+  };
+
+  const handleAddFaqItem = () => {
+    setEditingFaq(null);
+    setShowFaqForm(true);
+  };
+
+  // Contact handlers
+  const handleUpdateContactInfo = async (platform: string, contactData: Partial<InsertContactInfo>) => {
+    try {
+      await updateContactInfo.mutateAsync({ platform, contactInfo: contactData });
+      console.log('Contact info updated successfully');
+    } catch (error) {
+      console.error('Error updating contact info:', error);
+      throw error;
     }
   };
 
@@ -406,24 +477,43 @@ export default function AdminPage() {
         );
       case 'contacts':
         return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold">Contacts Management</h2>
-            <Card>
-              <CardContent className="p-6">
-                <p className="text-muted-foreground">Contacts management functionality coming soon.</p>
-              </CardContent>
-            </Card>
-          </div>
+          <ContactManagement
+            contactInfo={contactInfo}
+            isLoading={contactLoading}
+            onUpdate={handleUpdateContactInfo}
+            isUpdating={updateContactInfo.isPending}
+          />
         );
       case 'faq':
         return (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold">FAQ Management</h2>
-            <Card>
-              <CardContent className="p-6">
-                <p className="text-muted-foreground">FAQ management functionality coming soon.</p>
-              </CardContent>
-            </Card>
+            {showFaqForm ? (
+              <FaqForm
+                initialData={editingFaq ? {
+                  questionEn: (editingFaq.question as any)?.en || '',
+                  questionMy: (editingFaq.question as any)?.my || '',
+                  answerEn: (editingFaq.answer as any)?.en || '',
+                  answerMy: (editingFaq.answer as any)?.my || '',
+                  order: editingFaq.order || 0,
+                  isActive: editingFaq.isActive ?? true,
+                } : undefined}
+                onSubmit={editingFaq ? handleUpdateFaqItem : handleCreateFaqItem}
+                onCancel={() => {
+                  setShowFaqForm(false);
+                  setEditingFaq(null);
+                }}
+                isSubmitting={createFaqItem.isPending || updateFaqItem.isPending}
+                isEditing={!!editingFaq}
+              />
+            ) : (
+              <FaqTable
+                faqItems={faqItems}
+                isLoading={faqLoading}
+                onEdit={handleEditFaqItem}
+                onDelete={handleDeleteFaqItem}
+                onAdd={handleAddFaqItem}
+              />
+            )}
           </div>
         );
       default:

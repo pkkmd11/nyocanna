@@ -343,12 +343,16 @@ export function ContactManagement({ contactInfo, isLoading, onUpdate, isUpdating
                     </Button>
                   </div>
                   <ObjectUploader
-                    acceptedTypes={['image/*']}
-                    bucketName="product-images"
-                    folderPath="qr-codes"
-                    onUploadComplete={(urls) => handleQRUploadComplete(platform.id, urls)}
-                    maxFiles={1}
-                  />
+                    maxNumberOfFiles={1}
+                    onComplete={(urls: string[]) => handleQRUploadComplete(platform.id, urls)}
+                  >
+                    <div className="text-center">
+                      <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">
+                        Click to upload QR code image
+                      </p>
+                    </div>
+                  </ObjectUploader>
                 </div>
               )}
             </Card>
