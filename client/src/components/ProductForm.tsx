@@ -14,13 +14,16 @@ import { useState } from 'react';
 import { ObjectUploader } from './ObjectUploader';
 // Removed Uppy import - now using Supabase storage directly
 
-const productFormSchema = insertProductSchema.extend({
+// Create a form-specific schema that matches our form fields
+const productFormSchema = z.object({
   nameEn: z.string().min(1, 'English name is required'),
   nameMy: z.string().min(1, 'Myanmar name is required'),
   descriptionEn: z.string().min(1, 'English description is required'),
   descriptionMy: z.string().min(1, 'Myanmar description is required'),
+  quality: z.enum(['high', 'medium', 'low']),
   specificationsEn: z.string().optional(),
   specificationsMy: z.string().optional(),
+  isActive: z.boolean().optional(),
 });
 
 type ProductFormData = z.infer<typeof productFormSchema>;
