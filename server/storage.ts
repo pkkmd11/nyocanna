@@ -36,10 +36,12 @@ export interface IStorage {
   
   // Contact info methods
   getContactInfo(): Promise<ContactInfo[]>;
+  getAllContactInfo(): Promise<ContactInfo[]>;
   updateContactInfo(platform: string, info: Partial<ContactInfo>): Promise<ContactInfo>;
   
   // FAQ methods
   getFaqItems(): Promise<FaqItem[]>;
+  getAllFaqItems(): Promise<FaqItem[]>;
   createFaqItem(item: any): Promise<FaqItem>;
   updateFaqItem(id: string, item: any): Promise<FaqItem | undefined>;
   deleteFaqItem(id: string): Promise<boolean>;
@@ -315,6 +317,10 @@ export class MemStorage implements IStorage {
     return Array.from(this.contactInfo.values()).filter(contact => contact.isActive);
   }
 
+  async getAllContactInfo(): Promise<ContactInfo[]> {
+    return Array.from(this.contactInfo.values());
+  }
+
   async updateContactInfo(platform: string, info: Partial<ContactInfo>): Promise<ContactInfo> {
     const existing = Array.from(this.contactInfo.values()).find(contact => contact.platform === platform);
     
@@ -346,6 +352,11 @@ export class MemStorage implements IStorage {
   async getFaqItems(): Promise<FaqItem[]> {
     return Array.from(this.faqItems.values())
       .filter(item => item.isActive)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+  }
+
+  async getAllFaqItems(): Promise<FaqItem[]> {
+    return Array.from(this.faqItems.values())
       .sort((a, b) => (a.order || 0) - (b.order || 0));
   }
 
@@ -475,6 +486,10 @@ export class DbStorage implements IStorage {
     return await db.select().from(contactInfo).where(eq(contactInfo.isActive, true));
   }
 
+  async getAllContactInfo(): Promise<ContactInfo[]> {
+    return await db.select().from(contactInfo);
+  }
+
   async updateContactInfo(platform: string, info: Partial<ContactInfo>): Promise<ContactInfo> {
     const existing = await db.select().from(contactInfo).where(eq(contactInfo.platform, platform)).limit(1);
     
@@ -496,6 +511,11 @@ export class DbStorage implements IStorage {
   async getFaqItems(): Promise<FaqItem[]> {
     return await db.select().from(faqItems)
       .where(eq(faqItems.isActive, true))
+      .orderBy(faqItems.order);
+  }
+
+  async getAllFaqItems(): Promise<FaqItem[]> {
+    return await db.select().from(faqItems)
       .orderBy(faqItems.order);
   }
 
