@@ -491,12 +491,24 @@ export class DbStorage implements IStorage {
   }
 
   async updateContactInfo(platform: string, info: Partial<ContactInfo>): Promise<ContactInfo> {
-    // First, delete any existing records for this platform to prevent duplicates
+    // Get existing record to preserve fields not being updated
+    const existing = await db.select().from(contactInfo).where(eq(contactInfo.platform, platform)).limit(1);
+    
+    // Delete existing records for this platform to prevent duplicates
     await db.delete(contactInfo).where(eq(contactInfo.platform, platform));
     
-    // Then insert the new record
+    // Merge existing data with new updates, defaulting missing required fields
+    const mergedData = {
+      platform,
+      url: existing[0]?.url || '',
+      qrCode: existing[0]?.qrCode || null,
+      isActive: existing[0]?.isActive ?? true,
+      ...info // This will override any fields provided in the update
+    };
+    
+    // Insert the merged record
     const result = await db.insert(contactInfo)
-      .values({ platform, url: '', ...info })
+      .values(mergedData)
       .returning();
     return result[0];
   }
