@@ -9,7 +9,9 @@ import { Header } from '@/components/Header';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductDetailModal } from '@/components/ProductDetailModal';
 import { useProducts, useProduct } from '@/hooks/useProducts';
-import { Language, QUALITY_TIERS, CONTACT_PLATFORMS } from '@/types';
+import { useFaqItems } from '@/hooks/useFaq';
+import { useContactInfo } from '@/hooks/useContacts';
+import { Language, QUALITY_TIERS } from '@/types';
 
 export default function HomePage() {
   const [language, setLanguage] = useState<Language>('my');
@@ -21,6 +23,8 @@ export default function HomePage() {
 
   const { data: products = [], isLoading } = useProducts(selectedQuality);
   const { data: selectedProduct } = useProduct(selectedProductId || '');
+  const { data: faqItems = [] } = useFaqItems();
+  const { data: contactInfo = [] } = useContactInfo();
 
   const handleAdminLogin = () => {
     setShowAdminLogin(true);
@@ -155,27 +159,53 @@ export default function HomePage() {
             မှာယူပုံ
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {CONTACT_PLATFORMS.map((platform) => (
-              <Card key={platform.id} className="text-center shadow-lg">
-                <CardContent className="p-6">
-                  <div className={`w-16 h-16 ${platform.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                    <i className={`${platform.icon} text-white text-2xl`} />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">{platform.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    {platform.id === 'telegram' && 'Fast and secure messaging'}
-                    {platform.id === 'whatsapp' && 'Direct messaging and calls'}
-                    {platform.id === 'messenger' && 'Facebook messaging'}
-                  </p>
-                  <div className="w-32 h-32 bg-gray-100 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-xs text-muted-foreground">QR Code</span>
-                  </div>
-                  <Button className={`${platform.color} hover:opacity-90 text-white`}>
-                    Contact via {platform.name}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+            {contactInfo.filter(contact => contact.isActive).map((contact) => {
+              const getPlatformConfig = () => {
+                switch(contact.platform) {
+                  case 'telegram':
+                    return { name: 'Telegram', icon: 'fab fa-telegram-plane', color: 'bg-blue-500', desc: 'Fast and secure messaging' };
+                  case 'whatsapp':
+                    return { name: 'WhatsApp', icon: 'fab fa-whatsapp', color: 'bg-green-500', desc: 'Direct messaging and calls' };
+                  case 'messenger':
+                    return { name: 'Messenger', icon: 'fab fa-facebook-messenger', color: 'bg-blue-600', desc: 'Facebook messaging' };
+                  default:
+                    return { name: contact.platform, icon: 'fas fa-message', color: 'bg-gray-500', desc: 'Contact us' };
+                }
+              };
+              const platformConfig = getPlatformConfig();
+              
+              return (
+                <Card key={contact.platform} className="text-center shadow-lg">
+                  <CardContent className="p-6">
+                    <div className={`w-16 h-16 ${platformConfig.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                      <i className={`${platformConfig.icon} text-white text-2xl`} />
+                    </div>
+                    <h3 className="font-bold text-lg mb-2">{platformConfig.name}</h3>
+                    <p className="text-muted-foreground text-sm mb-4">
+                      {platformConfig.desc}
+                    </p>
+                    <div className="w-32 h-32 bg-gray-100 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                      {contact.qrCode ? (
+                        <img 
+                          src={contact.qrCode} 
+                          alt={`${platformConfig.name} QR Code`}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      ) : (
+                        <span className="text-xs text-muted-foreground">QR Code</span>
+                      )}
+                    </div>
+                    <Button 
+                      className={`${platformConfig.color} hover:opacity-90 text-white`}
+                      onClick={() => contact.url && window.open(contact.url, '_blank')}
+                      disabled={!contact.url}
+                    >
+                      Contact via {platformConfig.name}
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -187,31 +217,26 @@ export default function HomePage() {
             မေးလေ့ရှိသောမေးခွန်းများ
           </h2>
           <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger>How do I place an order?</AccordionTrigger>
-              <AccordionContent>
-                Contact us directly through any of our messaging platforms (Telegram, WhatsApp, or Messenger) 
-                with your product inquiry. Our team will guide you through the ordering process.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-2">
-              <AccordionTrigger>What payment methods do you accept?</AccordionTrigger>
-              <AccordionContent>
-                Payment details will be discussed directly with our sales team through your preferred messaging platform. 
-                We ensure secure and convenient payment options.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-3">
-              <AccordionTrigger className="font-myanmar">
-                ပစ္စည်းများအရည်အသွေးကို ဘယ်လိုအာမခံပါသလဲ?
-              </AccordionTrigger>
-              <AccordionContent className="font-myanmar">
-                ကျွန်ုပ်တို့သည် ထုတ်ကုန်တိုင်းအတွက် အရည်အသွေးစစ်ဆေးမှုများ ပြုလုပ်ပြီး၊ 
-                သုံးစွဲသူများ၏ စိတ်ကျေနပ်မှုကို အာမခံပါသည်။
-              </AccordionContent>
-            </AccordionItem>
+            {faqItems.length > 0 ? (
+              faqItems.map((faq, index) => (
+                <AccordionItem key={faq.id} value={`item-${index + 1}`}>
+                  <AccordionTrigger className={language === 'my' ? 'font-myanmar' : ''}>
+                    {language === 'my' && (faq.question as any)?.my 
+                      ? (faq.question as any).my 
+                      : (faq.question as any)?.en || 'Question not available'}
+                  </AccordionTrigger>
+                  <AccordionContent className={language === 'my' ? 'font-myanmar' : ''}>
+                    {language === 'my' && (faq.answer as any)?.my 
+                      ? (faq.answer as any).my 
+                      : (faq.answer as any)?.en || 'Answer not available'}
+                  </AccordionContent>
+                </AccordionItem>
+              ))
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">No FAQ items available.</p>
+              </div>
+            )}
           </Accordion>
         </div>
       </section>
