@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertProductSchema } from "@shared/schema";
+import { insertProductSchema, insertFaqItemSchema, insertContactInfoSchema } from "@shared/schema";
 // Using Supabase storage - handled client-side
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -107,6 +107,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.put("/api/contacts/:platform", async (req, res) => {
+    try {
+      const { platform } = req.params;
+      const validatedData = insertContactInfoSchema.partial().parse(req.body);
+      const contactInfo = await storage.updateContactInfo(platform, validatedData);
+      res.json(contactInfo);
+    } catch (error) {
+      console.error('Error updating contact info:', error);
+      res.status(400).json({ error: "Invalid contact data" });
+    }
+  });
+
   // FAQ endpoints
   app.get("/api/faq", async (req, res) => {
     try {
@@ -115,6 +127,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching FAQ:', error);
       res.status(500).json({ error: "Failed to fetch FAQ" });
+    }
+  });
+
+  app.post("/api/faq", async (req, res) => {
+    try {
+      const validatedData = insertFaqItemSchema.parse(req.body);
+      const faqItem = await storage.createFaqItem(validatedData);
+      res.status(201).json(faqItem);
+    } catch (error) {
+      console.error('Error creating FAQ item:', error);
+      res.status(400).json({ error: "Invalid FAQ data" });
+    }
+  });
+
+  app.put("/api/faq/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const validatedData = insertFaqItemSchema.partial().parse(req.body);
+      const faqItem = await storage.updateFaqItem(id, validatedData);
+      if (!faqItem) {
+        return res.status(404).json({ error: "FAQ item not found" });
+      }
+      res.json(faqItem);
+    } catch (error) {
+      console.error('Error updating FAQ item:', error);
+      res.status(400).json({ error: "Invalid FAQ data" });
+    }
+  });
+
+  app.delete("/api/faq/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteFaqItem(id);
+      if (!success) {
+        return res.status(404).json({ error: "FAQ item not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting FAQ item:', error);
+      res.status(500).json({ error: "Failed to delete FAQ item" });
     }
   });
 
